@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Radek Studio — Zakázková výroba nábytku na míru</title>
+  <meta name="description" content="Věnujeme se zakázkové výrobě kvalitního dřevěného nábytku na míru. Precizní zpracování, profesionální přístup a spolehlivá domluva od návrhu až po finální realizaci." />
+  <meta name="keywords" content="nábytek na míru, zakázkový nábytek, truhlářství, kuchyňské linky, vestavěné skříně, Radek Studio" />
+  <meta name="author" content="Radek Studio" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Radek Studio — Zakázková výroba nábytku na míru" />
+  <meta property="og:description" content="Věnujeme se zakázkové výrobě kvalitního dřevěného nábytku na míru." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://radekstudio.cz" />
+
+  <!-- Schema.org structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Radek Studio",
+    "description": "Zakázková výroba kvalitního dřevěného nábytku na míru",
+    "url": "https://radekstudio.cz",
+    "telephone": "[DOPLNIT: telefon]",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "[DOPLNIT: ulice]",
+      "addressLocality": "[DOPLNIT: město]",
+      "postalCode": "[DOPLNIT: PSČ]",
+      "addressCountry": "CZ"
+    }
+  }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Cormorant:wght@300;400&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --white: #ffffff;
+      --black: #111111;
+      --gray-light: #f5f5f3;
+      --gray-mid: #999999;
+      --gray-dark: #444444;
+      --overlay: rgba(0,0,0,0.32);
+      --font-main: 'Cormorant Garamond', serif;
+      --transition: 0.3s ease;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background: var(--white);
+      color: var(--black);
+      font-size: 18px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ─── NAVIGATION ─── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 72px;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .nav-left {
+      display: flex;
+      gap: 36px;
+      font-size: 15px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+    }
+
+    .nav-left a {
+      color: var(--gray-dark);
+      transition: color var(--transition);
+      position: relative;
+    }
+
+    .nav-left a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--black);
+      transition: width var(--transition);
+    }
+
+    .nav-left a:hover {
+      color: var(--black);
+    }
+
+    .nav-left a:hover::after {
+      width: 100%;
+    }
+
+    .nav-logo {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-logo img {
+      height: 20px;
+      width: auto;
+      display: block;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-right a {
+      color: var(--gray-dark);
+      transition: color var(--transition);
+      font-size: 15px;
+      letter-spacing: 0.04em;
+    }
+
+    .nav-right a:hover {
+      color: var(--black);
+    }
+
+    .nav-social {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .nav-social svg {
+      width: 18px;
+      height: 18px;
+      fill: var(--gray-dark);
+      transition: fill var(--transition);
+    }
+
+    .nav-social a:hover svg {
+      fill: var(--black);
+    }
+
+    /* ─── HAMBURGER ─── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 1.5px;
+      background: var(--black);
+      transition: var(--transition);
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 72px;
+      left: 0;
+      right: 0;
+      background: var(--white);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      z-index: 99;
+      padding: 24px 48px;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .mobile-menu a {
+      font-size: 20px;
+      color: var(--gray-dark);
+      letter-spacing: 0.04em;
+    }
+
+    .mobile-menu.open {
+      display: flex;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      margin-top: 72px;
+      width: 100%;
+      height: calc(100vh - 72px);
+      max-height: 800px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* ─── INTRO ─── */
+    .intro {
+      padding: 96px 48px;
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .intro p {
+      font-size: 20px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--gray-dark);
+      font-style: italic;
+    }
+
+    /* ─── CATEGORIES ─── */
+    .categories {
+      padding: 0 48px 96px;
+    }
+
+    .categories-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    .categories-header h2 {
+      font-size: 28px;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+
+    .categories-header a {
+      font-size: 15px;
+      color: var(--gray-mid);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--gray-mid);
+      padding-bottom: 2px;
+      transition: color var(--transition), border-color var(--transition);
+    }
+
+    .categories-header a:hover {
+      color: var(--black);
+      border-color: var(--black);
+    }
+
+    .categories-slider {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .category-card {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      cursor: pointer;
+    }
+
+    .category-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .category-card:hover img {
+      transform: scale(1.04);
+    }
+
+    .category-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: var(--overlay);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background var(--transition);
+    }
+
+    .category-card:hover .category-card-overlay {
+      background: rgba(0,0,0,0.42);
+    }
+
+    .category-card-overlay span {
+      color: white;
+      font-size: 17px;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      text-align: center;
+      padding: 0 16px;
+    }
+
+    /* ─── ABOUT ─── */
+    .about {
+      padding: 96px 48px;
+      background: var(--white);
+    }
+
+    .about-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto 80px;
+    }
+
+    .about-block.reverse {
+      direction: rtl;
+    }
+
+    .about-block.reverse > * {
+      direction: ltr;
+    }
+
+    .about-text h2 {
+      font-size: 32px;
+      font-weight: 400;
+      margin-bottom: 28px;
+      letter-spacing: 0.02em;
+    }
+
+    .about-text blockquote {
+      font-size: 19px;
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.8;
+      color: var(--gray-dark);
+      margin-bottom: 20px;
+    }
+
+    .about-text cite {
+      font-size: 15px;
+      font-style: normal;
+      letter-spacing: 0.06em;
+      color: var(--gray-mid);
+      text-transform: uppercase;
+    }
+
+    .about-image {
+      aspect-ratio: 4/5;
+      overflow: hidden;
+    }
+
+    .about-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .about-image:hover img {
+      transform: scale(1.03);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--black);
+      color: white;
+      padding: 64px 48px 40px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand .footer-logo {
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    .footer-brand .footer-logo img {
+      height: 22px;
+      width: auto;
+      filter: invert(1);
+    }
+
+    .footer-brand p {
+      font-size: 15px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.7;
+      max-width: 260px;
+    }
+
+    .footer-col h4 {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 20px;
+      font-weight: 400;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-col ul li a {
+      font-size: 15px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.7);
+      transition: color var(--transition);
+    }
+
+    .footer-col ul li a:hover {
+      color: white;
+    }
+
+    .footer-col p {
+      font-size: 15px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.8;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .footer-social a {
+      color: rgba(255,255,255,0.55);
+      transition: color var(--transition);
+    }
+
+    .footer-social a:hover {
+      color: white;
+    }
+
+    .footer-social svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-bottom p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+      font-weight: 300;
+    }
+
+    .footer-bottom a {
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+      font-weight: 300;
+      transition: color var(--transition);
+    }
+
+    .footer-bottom a:hover {
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .categories-slider {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        padding: 0 24px;
+      }
+
+      .nav-left,
+      .nav-right a:not(.nav-contact) {
+        display: none;
+      }
+
+      .nav-social {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .intro {
+        padding: 64px 24px;
+      }
+
+      .intro p {
+        font-size: 18px;
+      }
+
+      .categories {
+        padding: 0 24px 64px;
+      }
+
+      .categories-slider {
+        grid-template-columns: 1fr;
+      }
+
+      .about {
+        padding: 64px 24px;
+      }
+
+      .about-block {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .about-block.reverse {
+        direction: ltr;
+      }
+
+      footer {
+        padding: 48px 24px 32px;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero {
+        max-height: 500px;
+      }
+
+      .nav-logo {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="nav-left">
+      <a href="#uvod">úvod</a>
+      <a href="realizace.html">realizace</a>
+      <a href="#o-nas">o nás</a>
+    </div>
+
+    <a href="index.html" class="nav-logo">
+      <img src="radek_studio.svg" alt="Radek Studio" />
+    </a>
+
+    <div class="nav-right">
+      <div class="nav-social">
+        <!-- Instagram -->
+        <a href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+        </a>
+        <!-- Facebook -->
+        <a href="#" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+        </a>
+      </div>
+      <a href="kontakt.html">kontakt</a>
+    </div>
+
+    <button class="hamburger" aria-label="Menu" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#uvod" onclick="toggleMenu()">úvod</a>
+    <a href="realizace.html" onclick="toggleMenu()">realizace</a>
+    <a href="#o-nas" onclick="toggleMenu()">o nás</a>
+    <a href="kontakt.html" onclick="toggleMenu()">kontakt</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="uvod">
+    <div class="hero-img">
+      <!-- PLACEHOLDER: Nahraďte src cestou k hlavní hero fotografii (kuchyně nebo nábytek) -->
+      <img
+        src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1600&q=80"
+        alt="Zakázková výroba nábytku Radek Studio"
+        loading="eager"
+      />
+    </div>
+  </section>
+
+  <!-- INTRO TEXT -->
+  <section class="intro">
+    <p>Věnujeme se zakázkové výrobě kvalitního dřevěného nábytku na míru. Zakládáme si na precizním zpracování, profesionálním přístupu a spolehlivé domluvě od návrhu až po finální realizaci.</p>
+  </section>
+
+  <!-- CATEGORIES PREVIEW -->
+  <section class="categories">
+    <div class="categories-header">
+      <h2>Prozkoumat kategorie</h2>
+      <a href="realizace.html">Všechny kategorie</a>
+    </div>
+
+    <div class="categories-slider">
+      <a href="realizace/kuchynske-linky.html" class="category-card">
+        <!-- PLACEHOLDER: foto kuchyňské linky -->
+        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80" alt="Kuchyňské linky" loading="lazy" />
+        <div class="category-card-overlay"><span>kuchyňské linky</span></div>
+      </a>
+
+      <a href="realizace/vestavljene-skrine.html" class="category-card">
+        <!-- PLACEHOLDER: foto vestavěné skříně -->
+        <img src="https://images.unsplash.com/photo-1558997519-83ea9252edf8?w=800&q=80" alt="Vestavěné skříně" loading="lazy" />
+        <div class="category-card-overlay"><span>vestavěné skříně</span></div>
+      </a>
+
+      <a href="realizace/obyvaci-pokoje.html" class="category-card">
+        <!-- PLACEHOLDER: foto obývací pokoj -->
+        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80" alt="Obývací pokoje" loading="lazy" />
+        <div class="category-card-overlay"><span>obývací pokoje</span></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="o-nas">
+
+    <div class="about-block">
+      <div class="about-text">
+        <h2>O nás</h2>
+        <blockquote>
+          [DOPLNIT: Krátký osobní příběh Radka — jak začal, co ho baví na řemesle, co dělá jejich práci výjimečnou. 3–5 vět.]
+        </blockquote>
+        <cite>Radek Pešek</cite>
+      </div>
+      <div class="about-image">
+        <!-- PLACEHOLDER: Portrétní foto Radka v dílně -->
+        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80" alt="Radek Pešek — Radek Studio" loading="lazy" />
+      </div>
+    </div>
+
+    <div class="about-block reverse">
+      <div class="about-text">
+        <blockquote>
+          [DOPLNIT: Druhý odstavec — např. o přístupu k zákazníkovi, o kvalitě materiálů, o procesu výroby. 3–5 vět.]
+        </blockquote>
+        <cite>Radek Pešek</cite>
+      </div>
+      <div class="about-image">
+        <!-- PLACEHOLDER: Druhé foto — detail práce nebo dílny -->
+        <img src="https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=800&q=80" alt="Radek Studio — výroba nábytku" loading="lazy" />
+      </div>
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+
+      <div class="footer-brand">
+        <span class="footer-logo">
+          <img src="radek_studio.svg" alt="Radek Studio" />
+        </span>
+        <p>Zakázková výroba kvalitního dřevěného nábytku na míru. Od návrhu až po finální realizaci.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="#" aria-label="Facebook">
+            <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navigace</h4>
+        <ul>
+          <li><a href="#uvod">Úvod</a></li>
+          <li><a href="realizace.html">Realizace</a></li>
+          <li><a href="#o-nas">O nás</a></li>
+          <li><a href="kontakt.html">Kontakt</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Kontakt</h4>
+        <p>
+          [DOPLNIT: telefon]<br />
+          [DOPLNIT: email]<br /><br />
+          [DOPLNIT: adresa]<br />
+          [DOPLNIT: město, PSČ]
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Právní informace</h4>
+        <ul>
+          <li><a href="/zasady-ochrany-osobnich-udaju.html">Zásady ochrany osobních údajů</a></li>
+          <li><a href="/cookies.html">Cookies</a></li>
+        </ul>
+        <br />
+        <p style="color: rgba(255,255,255,0.4); font-size: 13px;">
+          IČO: [DOPLNIT]<br />
+          [DOPLNIT: případně DIČ]
+        </p>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 Radek Studio. Všechna práva vyhrazena.</p>
+      <p>Zakázková výroba nábytku na míru</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('open');
+    }
+
+    // Zavřít menu při kliknutí mimo
+    document.addEventListener('click', function(e) {
+      const menu = document.getElementById('mobileMenu');
+      const hamburger = document.querySelector('.hamburger');
+      if (!menu.contains(e.target) && !hamburger.contains(e.target)) {
+        menu.classList.remove('open');
+      }
+    });
+  </script>
+
+</body>
+</html>
