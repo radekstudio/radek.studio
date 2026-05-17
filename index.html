@@ -41,6 +41,10 @@
     .reveal-img img { opacity: 0; transform: scale(1.06); transition: opacity 1.3s var(--ease), transform 1.3s var(--ease); }
     .reveal-img.visible img { opacity: 1; transform: scale(1); }
 
+    /* Hero image reveal — same easing as reveal-img but applied to the img directly */
+    .hero-anim { opacity: 0; transform: scale(1.04); transition: opacity 1.6s var(--ease), transform 1.6s var(--ease); }
+    .hero-anim.visible { opacity: 1; transform: scale(1); }
+
     /* NAV */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -73,8 +77,7 @@
 
     /* HERO */
     .hero { margin-top: 72px; width: 100%; height: calc(100vh - 72px); max-height: 820px; overflow: hidden; }
-    .hero img { width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: 0; transform: scale(1.04); transition: opacity 1.6s var(--ease), transform 1.6s var(--ease); }
-    .hero img.loaded { opacity: 1; transform: scale(1); }
+    .hero img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 
     /* INTRO */
     .intro { padding: 120px 48px 100px; text-align: center; max-width: 720px; margin: 0 auto; }
@@ -111,8 +114,9 @@
     .about-text h2 { font-size: 32px; font-weight: 400; margin-bottom: 28px; letter-spacing: 0.02em; }
     .about-text blockquote { font-size: 19px; font-weight: 300; font-style: italic; line-height: 1.85; color: var(--gray-dark); margin-bottom: 20px; }
     .about-text cite { font-size: 13px; font-style: normal; letter-spacing: 0.1em; color: var(--gray-mid); text-transform: uppercase; }
-    /* square photos */
-    .about-image { aspect-ratio: 1/1; overflow: hidden; }
+    /* square photos — smaller */
+    .about-image { aspect-ratio: 1/1; overflow: hidden; max-width: 420px; }
+    .about-block:not(.reverse) .about-image { margin-left: auto; }
     .about-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.85s var(--ease); }
     .about-image:hover img { transform: scale(1.03); }
 
@@ -187,7 +191,7 @@
   </div>
 
   <section class="hero" id="uvod">
-    <img id="heroImg" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1600&q=80" alt="Zakázková výroba nábytku Radek Studio" loading="eager" />
+    <img id="heroImg" class="hero-anim" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1600&q=80" alt="Zakázková výroba nábytku Radek Studio" loading="eager" />
   </section>
 
   <section class="intro">
@@ -265,14 +269,17 @@
   <script>
     /* Hero load */
     const hi = document.getElementById('heroImg');
-    const onL = () => hi.classList.add('loaded');
-    hi.complete ? onL() : hi.addEventListener('load', onL);
+    // Trigger hero animation on load
+    const triggerHero = () => {
+      requestAnimationFrame(() => hi.classList.add('visible'));
+    };
+    hi.complete ? triggerHero() : hi.addEventListener('load', triggerHero);
 
     /* Reveal */
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
     }, { threshold: 0.08 });
-    document.querySelectorAll('.reveal, .reveal-img').forEach(el => obs.observe(el));
+    document.querySelectorAll('.reveal, .reveal-img, .hero-anim').forEach(el => obs.observe(el));
 
     /* Slider */
     const track = document.getElementById('sliderTrack');
@@ -280,7 +287,7 @@
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     let idx = 0;
-    let isDragging = false, startX = 0, startScrollX = 0, movedPx = 0;
+    let isDragging = false, startX = 0, movedPx = 0;
 
     function visCount() {
       if (window.innerWidth <= 768) return 1;
@@ -291,6 +298,7 @@
     function totalCards() { return track.querySelectorAll('.category-card').length; }
 
     function updateSlider() {
+      track.style.transition = 'transform 0.85s cubic-bezier(0.25, 1, 0.35, 1)';
       track.style.transform = `translateX(-${idx * cardW()}px)`;
       prevBtn.disabled = idx === 0;
       nextBtn.disabled = idx >= totalCards() - Math.floor(visCount());
@@ -317,11 +325,10 @@
       movedPx = e.clientX - startX;
       track.style.transform = `translateX(${-idx * cardW() + movedPx}px)`;
     });
-    window.addEventListener('mouseup', e => {
+    window.addEventListener('mouseup', () => {
       if (!isDragging) return;
       isDragging = false;
       wrapper.style.cursor = '';
-      track.style.transition = '';
       if (movedPx < -60) slideBy(1);
       else if (movedPx > 60) slideBy(-1);
       else updateSlider();
@@ -334,23 +341,39 @@
       track.style.transform = `translateX(${-idx * cardW() + movedPx}px)`;
     }, { passive: true });
     wrapper.addEventListener('touchend', () => {
-      track.style.transition = '';
       if (movedPx < -60) slideBy(1);
       else if (movedPx > 60) slideBy(-1);
       else updateSlider();
     });
 
-    /* Trackpad / Magic Mouse — horizontal wheel */
-    let wheelDebounce;
+    /* Trackpad & Magic Mouse — horizontal scroll accumulator */
+    let wheelAccum = 0;
+    let wheelTimer = null;
+    let wheelLocked = false;
+
     wrapper.addEventListener('wheel', e => {
-      const isHorizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY);
-      if (!isHorizontal) return;
+      // Only handle horizontal scroll (trackpad two-finger, Magic Mouse one-finger)
+      if (Math.abs(e.deltaX) < Math.abs(e.deltaY) * 0.5) return;
       e.preventDefault();
-      clearTimeout(wheelDebounce);
-      wheelDebounce = setTimeout(() => {
-        if (e.deltaX > 30) slideBy(1);
-        else if (e.deltaX < -30) slideBy(-1);
-      }, 80);
+
+      if (wheelLocked) return; // ignore while slide animation plays
+
+      wheelAccum += e.deltaX;
+
+      clearTimeout(wheelTimer);
+      wheelTimer = setTimeout(() => { wheelAccum = 0; }, 300);
+
+      if (wheelAccum > 60) {
+        wheelAccum = 0;
+        wheelLocked = true;
+        slideBy(1);
+        setTimeout(() => { wheelLocked = false; }, 700);
+      } else if (wheelAccum < -60) {
+        wheelAccum = 0;
+        wheelLocked = true;
+        slideBy(-1);
+        setTimeout(() => { wheelLocked = false; }, 700);
+      }
     }, { passive: false });
 
     /* Prevent navigation on drag */

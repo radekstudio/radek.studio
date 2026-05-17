@@ -21,6 +21,8 @@
     a { text-decoration: none; color: inherit; }
 
     /* REVEAL */
+    .hero-anim { opacity: 0; transform: scale(1.04); transition: opacity 1.6s cubic-bezier(0.25, 1, 0.35, 1), transform 1.6s cubic-bezier(0.25, 1, 0.35, 1); }
+    .hero-anim.visible { opacity: 1; transform: scale(1); }
     .reveal { opacity: 0; transform: translateY(32px); transition: opacity 1.1s var(--ease), transform 1.1s var(--ease); }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
@@ -130,7 +132,7 @@
 
   <!-- VELKÁ HERO FOTKA -->
   <div class="hero-photo reveal">
-    <img id="heroImg" src="https://images.unsplash.com/photo-1558997519-83ea9252edf8?w=1600&q=80" alt="Vestavěné skříně — Radek Studio" loading="eager" />
+    <img id="heroImg" class="hero-anim" src="https://images.unsplash.com/photo-1558997519-83ea9252edf8?w=1600&q=80" alt="Vestavěné skříně — Radek Studio" loading="eager" />
   </div>
 
   <!-- GRID FOTEK -->
@@ -175,12 +177,12 @@
 
 <script>
   const heroImg = document.getElementById('heroImg');
-  heroImg.complete ? heroImg.classList.add('loaded') : heroImg.addEventListener('load', () => heroImg.classList.add('loaded'));
+  const triggerHero = () => requestAnimationFrame(() => heroImg.classList.add("visible")); heroImg.complete ? triggerHero() : heroImg.addEventListener("load", triggerHero);
 
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
   }, { threshold: 0.06 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  document.querySelectorAll('.reveal, .hero-anim').forEach(el => obs.observe(el));
 
   function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
   document.addEventListener('click', e => {
