@@ -68,12 +68,41 @@
     .nav-social svg { width: 17px; height: 17px; fill: var(--gray-dark); transition: fill var(--t); }
     .nav-social a:hover svg { fill: var(--black); }
 
-    /* HAMBURGER — animated to X */
-    .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; width: 32px; height: 32px; }
-    .hamburger span { display: block; width: 24px; height: 1.5px; background: var(--black); transition: transform 0.4s var(--ease), opacity 0.3s ease, width 0.3s ease; transform-origin: center; }
-    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
-    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+    /* HAMBURGER — clean X animation (last Dribbble style) */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      width: 36px;
+      height: 36px;
+      position: relative;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--black);
+      border-radius: 2px;
+      position: absolute;
+      left: 50%;
+      transform-origin: center center;
+      transition: transform 0.45s cubic-bezier(0.23, 1, 0.32, 1),
+                  opacity 0.3s ease,
+                  margin 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .hamburger span:nth-child(1) { transform: translate(-50%, -7px); }
+    .hamburger span:nth-child(2) { transform: translate(-50%, 0px); }
+    .hamburger span:nth-child(3) { transform: translate(-50%, 7px); }
+
+    /* Open state → X */
+    .hamburger.open span:nth-child(1) { transform: translate(-50%, 0) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: translate(-50%, 0) scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translate(-50%, 0) rotate(-45deg); }
 
     /* MOBILE MENU — slide down with easing */
     .mobile-menu {
