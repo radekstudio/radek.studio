@@ -320,13 +320,7 @@
   </footer>
 
   <script>
-    /* Hero load */
-    const hi = document.getElementById('heroImg');
-    // Trigger hero animation on load
-    const triggerHero = () => {
-      requestAnimationFrame(() => hi.classList.add('visible'));
-    };
-    hi.complete ? triggerHero() : hi.addEventListener('load', triggerHero);
+    /* Hero animaci řídí loader.js */
 
     /* Reveal */
     const obs = new IntersectionObserver(entries => {
