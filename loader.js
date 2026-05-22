@@ -13,11 +13,12 @@ async function loadHomepage() {
     const data = await res.json();
     const heroImg = document.getElementById('heroImg');
     if (heroImg && data.hero_image) {
-      // Sveltia CMS ukládá cestu jako /images/... ale soubor je v public/images/
       const src = data.hero_image.startsWith('/images/') 
         ? '/public' + data.hero_image 
         : data.hero_image;
+      // Nastav src před animací aby se placeholder neukázal
       heroImg.src = src;
+      heroImg.onload = () => heroImg.classList.add('visible');
     }
     const introText = document.getElementById('introText');
     if (introText && data.uvodni_text) {
