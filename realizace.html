@@ -37,11 +37,56 @@
     .nav-social { display: flex; gap: 14px; align-items: center; }
     .nav-social svg { width: 17px; height: 17px; fill: var(--gray-dark); transition: fill var(--t); }
     .nav-social a:hover svg { fill: var(--black); }
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
-    .hamburger span { display: block; width: 24px; height: 1.5px; background: var(--black); }
-    .mobile-menu { display: none; position: fixed; top: 72px; left: 0; right: 0; background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.06); z-index: 99; padding: 24px 32px; flex-direction: column; gap: 20px; }
-    .mobile-menu a { font-size: 20px; color: var(--gray-dark); letter-spacing: 0.04em; }
-    .mobile-menu.open { display: flex; }
+        .hamburger {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      width: 36px;
+      height: 36px;
+      position: relative;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--black);
+      border-radius: 2px;
+      position: absolute;
+      left: 50%;
+      transform-origin: center center;
+      transition: transform 0.45s cubic-bezier(0.23, 1, 0.32, 1),
+                  opacity 0.3s ease;
+    }
+    .hamburger span:nth-child(1) { transform: translate(-50%, -7px); }
+    .hamburger span:nth-child(2) { transform: translate(-50%, 0px); }
+    .hamburger span:nth-child(3) { transform: translate(-50%, 7px); }
+    .hamburger.open span:nth-child(1) { transform: translate(-50%, 0) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: translate(-50%, 0) scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translate(-50%, 0) rotate(-45deg); }
+    .mobile-menu {
+      position: fixed; top: 72px; left: 0; right: 0;
+      background: var(--white);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      z-index: 99; padding: 0 32px;
+      flex-direction: column; gap: 0;
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.25, 1, 0.35, 1), padding 0.4s cubic-bezier(0.25, 1, 0.35, 1);
+      display: flex;
+    }
+    .mobile-menu a { font-size: 20px; color: var(--gray-dark); letter-spacing: 0.04em; padding: 16px 0; border-bottom: 1px solid rgba(0,0,0,0.05); opacity: 0; transform: translateY(8px); transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.25, 1, 0.35, 1); }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu.open { max-height: 400px; padding: 8px 32px 16px; }
+    .mobile-menu.open a { opacity: 1; transform: translateY(0); }
+    .mobile-menu.open a:nth-child(1) { transition-delay: 0.05s; }
+    .mobile-menu.open a:nth-child(2) { transition-delay: 0.1s; }
+    .mobile-menu.open a:nth-child(3) { transition-delay: 0.15s; }
+    .mobile-menu.open a:nth-child(4) { transition-delay: 0.2s; }
+    .mobile-social { display: none; }
     footer { background: var(--black); color: white; padding: 64px 48px 40px; }
     .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
     .footer-brand .footer-logo { display: block; margin-bottom: 16px; }
@@ -60,7 +105,10 @@
     .footer-bottom p, .footer-bottom a { font-size: 13px; color: rgba(255,255,255,0.28); font-weight: 300; }
     .footer-bottom a:hover { color: rgba(255,255,255,0.6); }
     @media (max-width: 1024px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 768px) { nav { padding: 0 24px; } .nav-left, .nav-right { display: none; } .hamburger { display: flex; } footer { padding: 48px 24px 32px; } .footer-grid { grid-template-columns: 1fr; gap: 32px; } .footer-bottom { flex-direction: column; align-items: flex-start; } }
+    @media (max-width: 768px) { nav { padding: 0 24px; } .nav-left, .nav-right { display: none; }
+      .mobile-social { display: flex; gap: 14px; align-items: center; position: absolute; right: 60px; }
+      .mobile-social svg { width: 17px; height: 17px; fill: var(--gray-dark); }
+      .mobile-social a:hover svg { fill: var(--black); } .hamburger { display: flex; } footer { padding: 48px 24px 32px; } .footer-grid { grid-template-columns: 1fr; gap: 32px; } .footer-bottom { flex-direction: column; align-items: flex-start; } }
     .page-header { margin-top: 72px; padding: 72px 48px 56px; }
     .page-header h1 { font-size: 44px; font-weight: 300; letter-spacing: 0.02em; }
     .categories-grid { padding: 0 48px 96px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
@@ -91,7 +139,11 @@
       </div>
       <a href="kontakt.html">kontakt</a>
     </div>
-    <button class="hamburger" aria-label="Menu" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    <div class="mobile-social">
+      <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+      <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+    </div>
   </nav>
   <div class="mobile-menu" id="mobileMenu">
     <a href="index.html#uvod" onclick="toggleMenu()">úvod</a>
@@ -105,17 +157,17 @@
   </div>
 
   <div class="categories-grid reveal-group">
-    <a href="realizace/kuchynske-linky.html" class="cat-card reveal"><img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80" alt="Kuchyňské linky" loading="lazy" /><div class="cat-card-overlay"><span>kuchyňské linky</span></div></a>
-    <a href="realizace/vestavljene-skrine.html" class="cat-card reveal"><img src="https://images.unsplash.com/photo-1558997519-83ea9252edf8?w=800&q=80" alt="Vestavěné skříně" loading="lazy" /><div class="cat-card-overlay"><span>vestavěné skříně</span></div></a>
-    <a href="realizace/obyvaci-pokoje.html" class="cat-card reveal"><img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80" alt="Obývací pokoje" loading="lazy" /><div class="cat-card-overlay"><span>obývací pokoje</span></div></a>
-    <a href="realizace/koupelnovy-nabytek.html" class="cat-card reveal"><img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&q=80" alt="Koupelnový nábytek" loading="lazy" /><div class="cat-card-overlay"><span>koupelnový nábytek</span></div></a>
-    <a href="realizace/detske-pokoje.html" class="cat-card reveal"><img src="https://images.unsplash.com/photo-1586105251261-72a756497a11?w=800&q=80" alt="Dětské pokoje" loading="lazy" /><div class="cat-card-overlay"><span>dětské pokoje</span></div></a>
-    <a href="realizace/kancelarsky-nabytek.html" class="cat-card reveal"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80" alt="Kancelářský nábytek" loading="lazy" /><div class="cat-card-overlay"><span>kancelářský nábytek</span></div></a>
-    <a href="realizace/loznice.html" class="cat-card reveal"><img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=800&q=80" alt="Ložnice" loading="lazy" /><div class="cat-card-overlay"><span>ložnice</span></div></a>
-    <a href="realizace/zadveri.html" class="cat-card reveal"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80" alt="Zádveří" loading="lazy" /><div class="cat-card-overlay"><span>zádveří</span></div></a>
-    <a href="realizace/satniky.html" class="cat-card reveal"><img src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=800&q=80" alt="Šatníky" loading="lazy" /><div class="cat-card-overlay"><span>šatníky</span></div></a>
-    <a href="realizace/technicka-mistnost.html" class="cat-card reveal"><img src="https://images.unsplash.com/photo-1581783898377-1c85bf938427?w=800&q=80" alt="Technická místnost" loading="lazy" /><div class="cat-card-overlay"><span>technická místnost</span></div></a>
-    <a href="realizace/ostatni.html" class="cat-card reveal"><img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=80" alt="Ostatní" loading="lazy" /><div class="cat-card-overlay"><span>ostatní</span></div></a>
+    <a href="realizace/kuchynske-linky.html" class="cat-card reveal"><img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80" id="cat-kuchynske-linky" alt="Kuchyňské linky" loading="lazy" /><div class="cat-card-overlay"><span>kuchyňské linky</span></div></a>
+    <a href="realizace/vestavljene-skrine.html" class="cat-card reveal"><img src="https://images.unsplash.com/photo-1558997519-83ea9252edf8?w=800&q=80" id="cat-vestavljene-skrine" alt="Vestavěné skříně" loading="lazy" /><div class="cat-card-overlay"><span>vestavěné skříně</span></div></a>
+    <a href="realizace/obyvaci-pokoje.html" class="cat-card reveal"><img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80" id="cat-obyvaci-pokoje" alt="Obývací pokoje" loading="lazy" /><div class="cat-card-overlay"><span>obývací pokoje</span></div></a>
+    <a href="realizace/koupelnovy-nabytek.html" class="cat-card reveal"><img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&q=80" id="cat-koupelnovy-nabytek" alt="Koupelnový nábytek" loading="lazy" /><div class="cat-card-overlay"><span>koupelnový nábytek</span></div></a>
+    <a href="realizace/detske-pokoje.html" class="cat-card reveal"><img src="https://images.unsplash.com/photo-1586105251261-72a756497a11?w=800&q=80" id="cat-detske-pokoje" alt="Dětské pokoje" loading="lazy" /><div class="cat-card-overlay"><span>dětské pokoje</span></div></a>
+    <a href="realizace/kancelarsky-nabytek.html" class="cat-card reveal"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80" id="cat-kancelarsky-nabytek" alt="Kancelářský nábytek" loading="lazy" /><div class="cat-card-overlay"><span>kancelářský nábytek</span></div></a>
+    <a href="realizace/loznice.html" class="cat-card reveal"><img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=800&q=80" id="cat-loznice" alt="Ložnice" loading="lazy" /><div class="cat-card-overlay"><span>ložnice</span></div></a>
+    <a href="realizace/zadveri.html" class="cat-card reveal"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80" id="cat-zadveri" alt="Zádveří" loading="lazy" /><div class="cat-card-overlay"><span>zádveří</span></div></a>
+    <a href="realizace/satniky.html" class="cat-card reveal"><img src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=800&q=80" id="cat-satniky" alt="Šatníky" loading="lazy" /><div class="cat-card-overlay"><span>šatníky</span></div></a>
+    <a href="realizace/technicka-mistnost.html" class="cat-card reveal"><img src="https://images.unsplash.com/photo-1581783898377-1c85bf938427?w=800&q=80" id="cat-technicka-mistnost" alt="Technická místnost" loading="lazy" /><div class="cat-card-overlay"><span>technická místnost</span></div></a>
+    <a href="realizace/ostatni.html" class="cat-card reveal"><img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=80" id="cat-ostatni" alt="Ostatní" loading="lazy" /><div class="cat-card-overlay"><span>ostatní</span></div></a>
   </div>
 
   <footer>
@@ -133,11 +185,21 @@
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
     }, { threshold: 0.08 });
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-    function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
-    document.addEventListener('click', e => {
-      const m = document.getElementById('mobileMenu'), h = document.querySelector('.hamburger');
-      if (!m.contains(e.target) && !h.contains(e.target)) m.classList.remove('open');
+    function toggleMenu() {
+      const menu = document.getElementById("mobileMenu");
+      const hamburger = document.getElementById("hamburger");
+      const isOpen = menu.classList.toggle("open");
+      hamburger.classList.toggle("open", isOpen);
+    }
+    document.addEventListener("click", e => {
+      const m = document.getElementById("mobileMenu"), h = document.getElementById("hamburger");
+      if (m && h && !m.contains(e.target) && !h.contains(e.target)) {
+        m.classList.remove("open");
+        h.classList.remove("open");
+      }
     });
   </script>
+<script src="/loader.js"></script>
+  <script>loadRealizace();</script>
 </body>
 </html>
