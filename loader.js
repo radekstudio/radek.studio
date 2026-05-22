@@ -18,7 +18,10 @@ async function loadHomepage() {
         : data.hero_image;
       // Nastav src před animací aby se placeholder neukázal
       heroImg.src = src;
-      heroImg.onload = () => heroImg.classList.add('visible');
+      heroImg.onload = () => {
+        // Malé zpoždění aby bylo vidět že jde o záměrný reveal
+        setTimeout(() => heroImg.classList.add('visible'), 100);
+      };
     }
     const introText = document.getElementById('introText');
     if (introText && data.uvodni_text) {
@@ -64,7 +67,9 @@ async function loadCategory(slug, fallbackHero) {
     const heroImg = document.getElementById('heroImg');
     if (heroImg) {
       const raw = (data.hero && data.hero !== '') ? data.hero : fallbackHero;
-      heroImg.src = raw.startsWith('/images/') ? '/public' + raw : raw;
+      const src = raw.startsWith('/images/') ? '/public' + raw : raw;
+      heroImg.src = src;
+      heroImg.onload = () => setTimeout(() => heroImg.classList.add('visible'), 100);
     }
 
     // Galerie
