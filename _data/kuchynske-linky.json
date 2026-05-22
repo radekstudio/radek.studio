@@ -1,4 +1,13 @@
 {
-  "hero": "",
-  "fotky": []
+  "hero": "/images/20250203_163426.png",
+  "fotky": [
+    {
+      "src": "/images/IMG_20230412_132627_697.jpg",
+      "alt": "moderní světlá kuchyň na míru"
+    },
+    {
+      "src": "/images/IMG_20240206_160816_146.png",
+      "alt": "stylová kuchyn Kroměříž"
+    }
+  ]
 }
