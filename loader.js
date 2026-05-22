@@ -13,7 +13,11 @@ async function loadHomepage() {
     const data = await res.json();
     const heroImg = document.getElementById('heroImg');
     if (heroImg && data.hero_image) {
-      heroImg.src = data.hero_image;
+      // Sveltia CMS ukládá cestu jako /images/... ale soubor je v public/images/
+      const src = data.hero_image.startsWith('/images/') 
+        ? '/public' + data.hero_image 
+        : data.hero_image;
+      heroImg.src = src;
     }
     const introText = document.getElementById('introText');
     if (introText && data.uvodni_text) {
@@ -58,7 +62,8 @@ async function loadCategory(slug, fallbackHero) {
     // Hero fotka
     const heroImg = document.getElementById('heroImg');
     if (heroImg) {
-      heroImg.src = (data.hero && data.hero !== '') ? data.hero : fallbackHero;
+      const raw = (data.hero && data.hero !== '') ? data.hero : fallbackHero;
+      heroImg.src = raw.startsWith('/images/') ? '/public' + raw : raw;
     }
 
     // Galerie
@@ -81,7 +86,8 @@ async function loadCategory(slug, fallbackHero) {
         div.className = 'photo-item reveal';
         div.onclick = () => openLb(i);
         const img = document.createElement('img');
-        img.src = photo.src;
+        const src = photo.src.startsWith('/images/') ? '/public' + photo.src : photo.src;
+        img.src = src;
         img.alt = photo.alt || '';
         img.loading = 'lazy';
         div.appendChild(img);
@@ -126,7 +132,9 @@ async function loadRealizace() {
     try {
       const res = await fetch(`/_data/${slug}.json`);
       const data = await res.json();
-      el.src = (data.hero && data.hero !== '') ? data.hero : fallback;
+      el.src = (data.hero && data.hero !== '') 
+        ? (data.hero.startsWith('/images/') ? '/public' + data.hero : data.hero)
+        : fallback;
     } catch (e) {
       el.src = fallback;
     }
