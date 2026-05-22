@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kancelářský nábytek — Radek Studio</title>
+  <meta name="description" content="Zakázková výroba Kancelářský nábytek na míru. Radek Studio." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --white: #ffffff; --black: #111111; --gray-mid: #999999; --gray-dark: #444444;
+      --font: 'Cormorant Garamond', serif;
+      --ease: cubic-bezier(0.25, 1, 0.35, 1); --t: 0.35s ease;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--white); color: var(--black); font-size: 18px; line-height: 1.6; overflow-x: hidden; }
+    img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    a { text-decoration: none; color: inherit; }
+
+    /* REVEAL */
+    .hero-anim { opacity: 0; transform: scale(1.04); transition: opacity 1.6s cubic-bezier(0.25, 1, 0.35, 1), transform 1.6s cubic-bezier(0.25, 1, 0.35, 1); }
+    .hero-anim.visible { opacity: 1; transform: scale(1); }
+    .reveal { opacity: 0; transform: translateY(32px); transition: opacity 1.1s var(--ease), transform 1.1s var(--ease); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; height: 72px; padding: 0 48px; background: rgba(255,255,255,0.96); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .nav-left { display: flex; gap: 36px; font-size: 15px; letter-spacing: 0.04em; }
+    .nav-left a { color: var(--gray-dark); transition: color var(--t); position: relative; }
+    .nav-left a::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:1px; background:var(--black); transition: width var(--t); }
+    .nav-left a:hover { color: var(--black); } .nav-left a:hover::after { width: 100%; }
+    .nav-logo { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; }
+    .nav-logo img { height: 19px; width: auto; }
+    .nav-right { display: flex; align-items: center; gap: 24px; }
+    .nav-right > a { color: var(--gray-dark); font-size: 15px; letter-spacing: 0.04em; transition: color var(--t); }
+    .nav-right > a:hover { color: var(--black); }
+    .nav-social { display: flex; gap: 14px; align-items: center; }
+    .nav-social svg { width: 17px; height: 17px; fill: var(--gray-dark); transition: fill var(--t); }
+    .nav-social a:hover svg { fill: var(--black); }
+        .hamburger {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      width: 36px;
+      height: 36px;
+      position: relative;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--black);
+      border-radius: 2px;
+      position: absolute;
+      left: 50%;
+      transform-origin: center center;
+      transition: transform 0.45s cubic-bezier(0.23, 1, 0.32, 1),
+                  opacity 0.3s ease;
+    }
+    .hamburger span:nth-child(1) { transform: translate(-50%, -7px); }
+    .hamburger span:nth-child(2) { transform: translate(-50%, 0px); }
+    .hamburger span:nth-child(3) { transform: translate(-50%, 7px); }
+    .hamburger.open span:nth-child(1) { transform: translate(-50%, 0) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: translate(-50%, 0) scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translate(-50%, 0) rotate(-45deg); }
+    .mobile-menu {
+      position: fixed; top: 72px; left: 0; right: 0;
+      background: var(--white);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      z-index: 99; padding: 0 32px;
+      flex-direction: column; gap: 0;
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.25, 1, 0.35, 1), padding 0.4s cubic-bezier(0.25, 1, 0.35, 1);
+      display: flex;
+    }
+    .mobile-menu a { font-size: 20px; color: var(--gray-dark); letter-spacing: 0.04em; padding: 16px 0; border-bottom: 1px solid rgba(0,0,0,0.05); opacity: 0; transform: translateY(8px); transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.25, 1, 0.35, 1); }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu.open { max-height: 400px; padding: 8px 32px 16px; }
+    .mobile-menu.open a { opacity: 1; transform: translateY(0); }
+    .mobile-menu.open a:nth-child(1) { transition-delay: 0.05s; }
+    .mobile-menu.open a:nth-child(2) { transition-delay: 0.1s; }
+    .mobile-menu.open a:nth-child(3) { transition-delay: 0.15s; }
+    .mobile-menu.open a:nth-child(4) { transition-delay: 0.2s; }
+    .mobile-social { display: none; }
+
+    /* PAGE CONTENT — přesně jako PDF návrh */
+    .page-wrap { margin-top: 72px; padding: 56px 48px 96px; }
+    .page-title { font-size: 36px; font-weight: 300; letter-spacing: 0.02em; margin-bottom: 40px; }
+
+    /* Hero foto — velká přes celou šířku */
+    .hero-photo { width: 100%; aspect-ratio: 16/7; overflow: hidden; margin-bottom: 16px; }
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.03); transition: opacity 1.4s var(--ease), transform 1.4s var(--ease); }
+    .hero-photo img.loaded { opacity: 1; transform: scale(1); }
+
+    /* Grid fotek pod tím — 3 sloupce */
+    .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 0; }
+    .photo-item { aspect-ratio: 4/3; overflow: hidden; cursor: pointer; background: #eeede9; }
+    .photo-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.85s var(--ease); }
+    .photo-item:hover img { transform: scale(1.05); }
+    .photo-placeholder { aspect-ratio: 4/3; background: #eeede9; }
+
+    /* Lightbox */
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.93); z-index: 200; align-items: center; justify-content: center; }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 90vw; max-height: 88vh; object-fit: contain; width: auto; height: auto; }
+    .lb-close { position: absolute; top: 24px; right: 32px; font-size: 36px; color: white; cursor: pointer; background: none; border: none; opacity: 0.65; transition: opacity var(--t); line-height: 1; }
+    .lb-close:hover { opacity: 1; }
+    .lb-prev, .lb-next { position: absolute; top: 50%; transform: translateY(-50%); background: none; border: none; color: white; font-size: 48px; cursor: pointer; opacity: 0.5; transition: opacity var(--t); padding: 16px; line-height: 1; }
+    .lb-prev { left: 8px; } .lb-next { right: 8px; }
+    .lb-prev:hover, .lb-next:hover { opacity: 1; }
+
+    /* FOOTER */
+    footer { background: var(--black); color: white; padding: 64px 48px 40px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+    .footer-brand .footer-logo { display: block; margin-bottom: 16px; }
+    .footer-brand .footer-logo img { height: 19px; width: auto; filter: invert(1); }
+    .footer-brand p { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.5); line-height: 1.7; max-width: 260px; }
+    .footer-col h4 { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 20px; font-weight: 400; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.65); transition: color var(--t); }
+    .footer-col ul li a:hover { color: white; }
+    .footer-col p { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.65); line-height: 1.8; }
+    .footer-social { display: flex; gap: 16px; margin-top: 20px; }
+    .footer-social a { color: rgba(255,255,255,0.45); transition: color var(--t); }
+    .footer-social a:hover { color: white; }
+    .footer-social svg { width: 20px; height: 20px; fill: currentColor; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .footer-bottom p { font-size: 13px; color: rgba(255,255,255,0.28); font-weight: 300; }
+
+    @media (max-width: 1024px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; } .nav-left, .nav-right { display: none; }
+      .mobile-social { display: flex; gap: 14px; align-items: center; position: absolute; right: 60px; }
+      .mobile-social svg { width: 17px; height: 17px; fill: var(--gray-dark); }
+      .mobile-social a:hover svg { fill: var(--black); } .hamburger { display: flex; }
+      .page-wrap { padding: 40px 24px 64px; }
+      .page-title { font-size: 28px; }
+      .photo-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      footer { padding: 48px 24px 32px; } .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; }
+    }
+    @media (max-width: 480px) { .photo-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <a href="../index.html#uvod">úvod</a>
+    <a href="../realizace.html">realizace</a>
+    <a href="../index.html#o-nas">o nás</a>
+  </div>
+  <a href="../index.html" class="nav-logo"><img src="../radek_studio.svg" alt="Radek Studio" /></a>
+  <div class="nav-right">
+    <div class="nav-social">
+      <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+      <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+    </div>
+    <a href="../kontakt.html">kontakt</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    <div class="mobile-social">
+      <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+      <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+    </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#uvod" onclick="toggleMenu()">úvod</a>
+  <a href="../realizace.html" onclick="toggleMenu()">realizace</a>
+  <a href="../index.html#o-nas" onclick="toggleMenu()">o nás</a>
+  <a href="../kontakt.html" onclick="toggleMenu()">kontakt</a>
+</div>
+
+<div class="page-wrap">
+  <h1 class="page-title reveal">Kancelářský nábytek</h1>
+
+  <!-- VELKÁ HERO FOTKA -->
+  <div class="hero-photo reveal">
+    <img id="heroImg" class="hero-anim" src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80" alt="Kancelářský nábytek — Radek Studio" loading="eager" />
+  </div>
+
+  <!-- GRID FOTEK -->
+  <div class="photo-grid" id="photoGrid">
+  </div>
+</div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" onclick="closeLb()">×</button>
+  <button class="lb-prev" onclick="lbNav(-1)">‹</button>
+  <img id="lbImg" src="" alt="" />
+  <button class="lb-next" onclick="lbNav(1)">›</button>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="footer-logo"><img src="../radek_studio.svg" alt="Radek Studio" /></span>
+      <p>Zakázková výroba kvalitního dřevěného nábytku na míru. Od návrhu až po finální realizaci.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Navigace</h4><ul><li><a href="../index.html">Úvod</a></li><li><a href="../realizace.html">Realizace</a></li><li><a href="../index.html#o-nas">O nás</a></li><li><a href="../kontakt.html">Kontakt</a></li></ul></div>
+    <div class="footer-col"><h4>Kontakt</h4><p>[DOPLNIT: telefon]<br />[DOPLNIT: email]<br /><br />[DOPLNIT: adresa]</p></div>
+    <div class="footer-col"><h4>Právní informace</h4><ul><li><a href="../zasady-ochrany-osobnich-udaju.html">Zásady ochrany osobních údajů</a></li><li><a href="../cookies.html">Cookies</a></li></ul><br /><p style="color:rgba(255,255,255,0.3);font-size:13px;">IČO: [DOPLNIT]</p></div>
+  </div>
+  <div class="footer-bottom"><p>© 2025 Radek Studio. Všechna práva vyhrazena.</p><p>Zakázková výroba nábytku na míru</p></div>
+</footer>
+
+<script>
+  const heroImg = document.getElementById('heroImg');
+  const triggerHero = () => requestAnimationFrame(() => heroImg.classList.add("visible")); heroImg.complete ? triggerHero() : heroImg.addEventListener("load", triggerHero);
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.reveal, .hero-anim').forEach(el => obs.observe(el));
+
+  function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+  document.addEventListener('click', e => {
+    const m = document.getElementById('mobileMenu'), h = document.querySelector('.hamburger');
+    if (!m.contains(e.target) && !h.contains(e.target)) m.classList.remove('open');
+  });
+
+  const imgs = Array.from(document.querySelectorAll('.photo-item img'));
+  let cur = 0;
+  function openLb(i) { cur = i; document.getElementById('lbImg').src = imgs[i].src; document.getElementById('lightbox').classList.add('open'); }
+  function closeLb() { document.getElementById('lightbox').classList.remove('open'); }
+  function lbNav(d) { cur = (cur + d + imgs.length) % imgs.length; document.getElementById('lbImg').src = imgs[cur].src; }
+  document.getElementById('lightbox').addEventListener('click', e => { if (e.target === e.currentTarget) closeLb(); });
+  document.addEventListener('keydown', e => { if (e.key==='Escape') closeLb(); if (e.key==='ArrowLeft') lbNav(-1); if (e.key==='ArrowRight') lbNav(1); });
+</script>
+  <script src="/loader.js"></script>
+  <script>
+    window.revealObserver = obs;
+    window.initLightbox = function() {
+      window._lbImgs = Array.from(document.querySelectorAll('.photo-item img'));
+    };
+    window.openLb = function(i) {
+      const imgs = window._lbImgs || Array.from(document.querySelectorAll('.photo-item img'));
+      cur = i;
+      document.getElementById('lbImg').src = imgs[i].src;
+      document.getElementById('lightbox').classList.add('open');
+    };
+    loadCategory('kancelarsky-nabytek', 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80');
+  </script>
+</body>
+</html>
