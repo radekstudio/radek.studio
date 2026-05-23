@@ -1,11 +1,14 @@
 /**
  * Radek Studio — Dynamic Photo Loader
- * Načítá fotky z JSON souborů generovaných Decap CMS
  */
 
-const FALLBACK = 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1600&q=80';
+// ── Pomocná funkce pro opravu cesty k fotkám ────────────────────
+function fixSrc(src) {
+  if (!src) return '';
+  return src.startsWith('/images/') ? '/public' + src : src;
+}
 
-// ── Hlavní stránka — hero fotka + slider kategorie ──────────────
+// ── Hlavní stránka ───────────────────────────────────────────────
 async function loadHomepage() {
   // Hero hlavní stránky
   try {
@@ -13,51 +16,37 @@ async function loadHomepage() {
     const data = await res.json();
     const heroImg = document.getElementById('heroImg');
     if (heroImg && data.hero_image) {
-      const src = data.hero_image.startsWith('/images/') 
-        ? '/public' + data.hero_image 
-        : data.hero_image;
-      // Nastav src před animací aby se placeholder neukázal
-      heroImg.src = src;
-      heroImg.onload = () => {
-        // Malé zpoždění aby bylo vidět že jde o záměrný reveal
-        setTimeout(() => heroImg.classList.add('visible'), 100);
-      };
+      heroImg.src = fixSrc(data.hero_image);
+      heroImg.onload = () => setTimeout(() => heroImg.classList.add('visible'), 100);
     }
     const introText = document.getElementById('introText');
     if (introText && data.uvodni_text) {
       introText.textContent = `„${data.uvodni_text}"`;
     }
-  } catch (e) { console.log('Hlavní hero: používám placeholder'); }
+  } catch (e) { console.log('Hlavní hero error:', e); }
 
-  // Hero fotky pro slider kategorií
-  const categoryMap = {
-    'kuchynske-linky':    { el: document.getElementById('cat-kuchynske-linky'),    fallback: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80' },
-    'vestavljene-skrine': { el: document.getElementById('cat-vestavljene-skrine'), fallback: 'https://images.unsplash.com/photo-1558997519-83ea9252edf8?w=800&q=80' },
-    'obyvaci-pokoje':     { el: document.getElementById('cat-obyvaci-pokoje'),     fallback: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80' },
-    'koupelnovy-nabytek': { el: document.getElementById('cat-koupelnovy-nabytek'), fallback: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&q=80' },
-    'detske-pokoje':      { el: document.getElementById('cat-detske-pokoje'),      fallback: 'https://images.unsplash.com/photo-1586105251261-72a756497a11?w=800&q=80' },
-    'kancelarsky-nabytek':{ el: document.getElementById('cat-kancelarsky-nabytek'),fallback: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80' },
-    'loznice':            { el: document.getElementById('cat-loznice'),             fallback: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=800&q=80' },
-    'zadveri':            { el: document.getElementById('cat-zadveri'),             fallback: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80' },
-    'satniky':            { el: document.getElementById('cat-satniky'),             fallback: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=800&q=80' },
-    'technicka-mistnost': { el: document.getElementById('cat-technicka-mistnost'), fallback: 'https://images.unsplash.com/photo-1581783898377-1c85bf938427?w=800&q=80' },
-    'ostatni':            { el: document.getElementById('cat-ostatni'),             fallback: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=80' },
-  };
+  // Slider — hero fotky kategorií
+  const slugs = [
+    'kuchynske-linky', 'vestavljene-skrine', 'obyvaci-pokoje',
+    'koupelnovy-nabytek', 'detske-pokoje', 'kancelarsky-nabytek',
+    'loznice', 'zadveri', 'satniky', 'technicka-mistnost', 'ostatni'
+  ];
 
-  for (const [slug, { el, fallback }] of Object.entries(categoryMap)) {
+  for (const slug of slugs) {
+    const el = document.getElementById(`cat-${slug}`);
     if (!el) continue;
     try {
       const res = await fetch(`/_data/${slug}.json`);
       const data = await res.json();
-      if (data.hero) el.src = data.hero;
-      else el.src = fallback;
-    } catch (e) {
-      el.src = fallback;
-    }
+      if (data.hero && data.hero !== '') {
+        el.src = fixSrc(data.hero);
+      }
+      // Pokud hero není, nechej placeholder src jak je
+    } catch (e) { /* nechej placeholder */ }
   }
 }
 
-// ── Stránka kategorie — hero + galerie ──────────────────────────
+// ── Stránka kategorie ────────────────────────────────────────────
 async function loadCategory(slug, fallbackHero) {
   try {
     const res = await fetch(`/_data/${slug}.json`);
@@ -67,8 +56,7 @@ async function loadCategory(slug, fallbackHero) {
     const heroImg = document.getElementById('heroImg');
     if (heroImg) {
       const raw = (data.hero && data.hero !== '') ? data.hero : fallbackHero;
-      const src = raw.startsWith('/images/') ? '/public' + raw : raw;
-      heroImg.src = src;
+      heroImg.src = fixSrc(raw);
       heroImg.onload = () => setTimeout(() => heroImg.classList.add('visible'), 100);
     }
 
@@ -79,113 +67,117 @@ async function loadCategory(slug, fallbackHero) {
 
     const photos = (data.fotky && data.fotky.length > 0) ? data.fotky : [];
 
-    if (photos.length === 0) {
-      // Žádné fotky — zobraz 9 placeholderů
-      for (let i = 0; i < 9; i++) {
-        const div = document.createElement('div');
-        div.className = 'photo-placeholder reveal';
-        grid.appendChild(div);
-      }
-    } else {
-      photos.forEach((photo, i) => {
-        const div = document.createElement('div');
-        div.className = 'photo-item reveal';
-        div.onclick = () => openLb(i);
-        const img = document.createElement('img');
-        const src = photo.src.startsWith('/images/') ? '/public' + photo.src : photo.src;
-        img.src = src;
-        img.alt = photo.alt || '';
-        img.loading = 'lazy';
-        div.appendChild(img);
-        grid.appendChild(div);
-      });
-    }
+    // Žádné fotky = prázdná galerie, žádné placeholdery
+    photos.forEach((photo, i) => {
+      const div = document.createElement('div');
+      div.className = 'photo-item reveal';
+      div.onclick = () => openLb(i);
+      const img = document.createElement('img');
+      img.src = fixSrc(photo.src);
+      img.alt = photo.alt || '';
+      img.loading = 'lazy';
+      div.appendChild(img);
+      grid.appendChild(div);
+    });
 
-    // Reinit reveal observer pro nové elementy
+    // Reveal observer
     if (window.revealObserver) {
       grid.querySelectorAll('.reveal').forEach(el => window.revealObserver.observe(el));
     }
 
-    // Inicializuj lightbox s aktuálními fotkami
+    // Inicializuj lightbox
     initLightboxGlobal();
 
   } catch (e) {
     console.log('Chyba načítání kategorie:', e);
     const heroImg = document.getElementById('heroImg');
-    if (heroImg) heroImg.src = fallbackHero;
+    if (heroImg) {
+      heroImg.src = fallbackHero;
+      heroImg.onload = () => setTimeout(() => heroImg.classList.add('visible'), 100);
+    }
   }
 }
 
 // ── Lightbox ─────────────────────────────────────────────────────
 let lbCurrent = 0;
+let lbAllImgs = []; // hero + galerie
 
 function initLightboxGlobal() {
-  window._lbImgs = Array.from(document.querySelectorAll('.photo-item img'));
+  // Sesbírej hero fotku + všechny fotky z galerie
+  const heroImg = document.getElementById('heroImg');
+  const galleryImgs = Array.from(document.querySelectorAll('.photo-item img'));
+  lbAllImgs = heroImg && heroImg.src ? [heroImg, ...galleryImgs] : galleryImgs;
+  window._lbImgs = lbAllImgs;
 }
 
 function openLb(i) {
-  window._lbImgs = Array.from(document.querySelectorAll('.photo-item img'));
-  lbCurrent = i;
+  initLightboxGlobal();
+  // i === -1 znamená hero fotka
+  lbCurrent = i === -1 ? 0 : i + (lbAllImgs[0]?.id === 'heroImg' ? 1 : 0);
   const lb = document.getElementById('lightbox');
   const lbImg = document.getElementById('lbImg');
-  if (!lb || !lbImg || !window._lbImgs[i]) return;
-  lbImg.src = window._lbImgs[i].src;
+  if (!lb || !lbImg || !lbAllImgs[lbCurrent]) return;
+  lbImg.src = lbAllImgs[lbCurrent].src;
   lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
 function closeLb() {
   const lb = document.getElementById('lightbox');
   if (lb) lb.classList.remove('open');
+  document.body.style.overflow = '';
 }
 
 function lbNav(dir) {
-  const imgs = window._lbImgs || [];
-  if (!imgs.length) return;
-  lbCurrent = (lbCurrent + dir + imgs.length) % imgs.length;
+  if (!lbAllImgs.length) return;
+  lbCurrent = (lbCurrent + dir + lbAllImgs.length) % lbAllImgs.length;
   const lbImg = document.getElementById('lbImg');
-  if (lbImg) lbImg.src = imgs[lbCurrent].src;
+  if (lbImg) lbImg.src = lbAllImgs[lbCurrent].src;
 }
 
-// Keyboard navigation
+// Keyboard
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeLb();
   if (e.key === 'ArrowLeft') lbNav(-1);
   if (e.key === 'ArrowRight') lbNav(1);
 });
 
-// Click outside to close
+// Click outside
 document.addEventListener('click', e => {
   const lb = document.getElementById('lightbox');
   if (lb && e.target === lb) closeLb();
 });
 
+// Touch swipe v lightboxu
+let lbTouchX = 0;
+document.addEventListener('touchstart', e => {
+  const lb = document.getElementById('lightbox');
+  if (lb && lb.classList.contains('open')) lbTouchX = e.touches[0].clientX;
+}, { passive: true });
+document.addEventListener('touchend', e => {
+  const lb = document.getElementById('lightbox');
+  if (lb && lb.classList.contains('open')) {
+    const diff = e.changedTouches[0].clientX - lbTouchX;
+    if (diff < -50) lbNav(1);
+    else if (diff > 50) lbNav(-1);
+  }
+});
+
 // ── Stránka Realizace — grid kategorií ──────────────────────────
 async function loadRealizace() {
-  const categoryMap = {
-    'kuchynske-linky':    { fallback: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80' },
-    'vestavljene-skrine': { fallback: 'https://images.unsplash.com/photo-1558997519-83ea9252edf8?w=800&q=80' },
-    'obyvaci-pokoje':     { fallback: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80' },
-    'koupelnovy-nabytek': { fallback: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&q=80' },
-    'detske-pokoje':      { fallback: 'https://images.unsplash.com/photo-1586105251261-72a756497a11?w=800&q=80' },
-    'kancelarsky-nabytek':{ fallback: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80' },
-    'loznice':            { fallback: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=800&q=80' },
-    'zadveri':            { fallback: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80' },
-    'satniky':            { fallback: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=800&q=80' },
-    'technicka-mistnost': { fallback: 'https://images.unsplash.com/photo-1581783898377-1c85bf938427?w=800&q=80' },
-    'ostatni':            { fallback: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=80' },
-  };
+  const slugs = [
+    'kuchynske-linky', 'vestavljene-skrine', 'obyvaci-pokoje',
+    'koupelnovy-nabytek', 'detske-pokoje', 'kancelarsky-nabytek',
+    'loznice', 'zadveri', 'satniky', 'technicka-mistnost', 'ostatni'
+  ];
 
-  for (const [slug, { fallback }] of Object.entries(categoryMap)) {
+  for (const slug of slugs) {
     const el = document.getElementById(`cat-${slug}`);
     if (!el) continue;
     try {
       const res = await fetch(`/_data/${slug}.json`);
       const data = await res.json();
-      el.src = (data.hero && data.hero !== '') 
-        ? (data.hero.startsWith('/images/') ? '/public' + data.hero : data.hero)
-        : fallback;
-    } catch (e) {
-      el.src = fallback;
-    }
+      if (data.hero && data.hero !== '') el.src = fixSrc(data.hero);
+    } catch (e) { /* nechej placeholder */ }
   }
 }
