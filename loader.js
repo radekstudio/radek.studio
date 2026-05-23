@@ -106,8 +106,8 @@ async function loadCategory(slug, fallbackHero) {
       grid.querySelectorAll('.reveal').forEach(el => window.revealObserver.observe(el));
     }
 
-    // Reinit lightbox
-    if (window.initLightbox) window.initLightbox();
+    // Inicializuj lightbox s aktuálními fotkami
+    initLightboxGlobal();
 
   } catch (e) {
     console.log('Chyba načítání kategorie:', e);
@@ -115,6 +115,49 @@ async function loadCategory(slug, fallbackHero) {
     if (heroImg) heroImg.src = fallbackHero;
   }
 }
+
+// ── Lightbox ─────────────────────────────────────────────────────
+let lbCurrent = 0;
+
+function initLightboxGlobal() {
+  window._lbImgs = Array.from(document.querySelectorAll('.photo-item img'));
+}
+
+function openLb(i) {
+  window._lbImgs = Array.from(document.querySelectorAll('.photo-item img'));
+  lbCurrent = i;
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  if (!lb || !lbImg || !window._lbImgs[i]) return;
+  lbImg.src = window._lbImgs[i].src;
+  lb.classList.add('open');
+}
+
+function closeLb() {
+  const lb = document.getElementById('lightbox');
+  if (lb) lb.classList.remove('open');
+}
+
+function lbNav(dir) {
+  const imgs = window._lbImgs || [];
+  if (!imgs.length) return;
+  lbCurrent = (lbCurrent + dir + imgs.length) % imgs.length;
+  const lbImg = document.getElementById('lbImg');
+  if (lbImg) lbImg.src = imgs[lbCurrent].src;
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeLb();
+  if (e.key === 'ArrowLeft') lbNav(-1);
+  if (e.key === 'ArrowRight') lbNav(1);
+});
+
+// Click outside to close
+document.addEventListener('click', e => {
+  const lb = document.getElementById('lightbox');
+  if (lb && e.target === lb) closeLb();
+});
 
 // ── Stránka Realizace — grid kategorií ──────────────────────────
 async function loadRealizace() {
