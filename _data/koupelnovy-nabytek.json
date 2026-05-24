@@ -1,4 +1,17 @@
 {
-  "hero": "",
-  "fotky": []
+  "hero": "/images/20250406_171442.png",
+  "fotky": [
+    {
+      "src": "/images/IMG_20240206_160558_787.png",
+      "alt": "koupelna 1"
+    },
+    {
+      "src": "/images/20250203_164637.jpg",
+      "alt": "koupelna 2"
+    },
+    {
+      "src": "/images/20250328_154759.png",
+      "alt": "koupena 3"
+    }
+  ]
 }
