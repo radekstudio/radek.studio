@@ -1,4 +1,17 @@
 {
-  "hero": "",
-  "fotky": []
+  "hero": "/images/IMG-20251015-WA0027.jpg",
+  "fotky": [
+    {
+      "src": "/images/20250617_184839.jpg",
+      "alt": "vestavěná skříň 1"
+    },
+    {
+      "src": "/images/20240911_112440.jpg",
+      "alt": "skřín šikmina"
+    },
+    {
+      "src": "/images/IMG_20240206_160516_600.png",
+      "alt": "vystavena skříň 2"
+    }
+  ]
 }
