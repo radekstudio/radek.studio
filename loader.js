@@ -39,10 +39,12 @@ async function loadHomepage() {
       const res = await fetch(`/_data/${slug}.json`);
       const data = await res.json();
       if (data.hero && data.hero !== '') {
-        el.src = fixSrc(data.hero);
+        const src = fixSrc(data.hero);
+        el.onload = () => el.classList.add('loaded');
+        el.src = src;
       }
-      // Pokud hero není, nechej placeholder src jak je
-    } catch (e) { /* nechej placeholder */ }
+      // Pokud hero není, karta zůstane s neutrálním pozadím
+    } catch (e) { /* nechej neutrální pozadí */ }
   }
 }
 
@@ -177,7 +179,11 @@ async function loadRealizace() {
     try {
       const res = await fetch(`/_data/${slug}.json`);
       const data = await res.json();
-      if (data.hero && data.hero !== '') el.src = fixSrc(data.hero);
-    } catch (e) { /* nechej placeholder */ }
+      if (data.hero && data.hero !== '') {
+        const src = fixSrc(data.hero);
+        el.onload = () => el.classList.add('loaded');
+        el.src = src;
+      }
+    } catch (e) { /* nechej neutrální pozadí */ }
   }
 }

@@ -112,8 +112,9 @@
     .page-header { margin-top: 72px; padding: 72px 48px 56px; }
     .page-header h1 { font-size: 44px; font-weight: 300; letter-spacing: 0.02em; }
     .categories-grid { padding: 0 48px 96px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .cat-card { position: relative; overflow: hidden; aspect-ratio: 4/3; cursor: pointer; }
-    .cat-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.85s var(--ease); }
+    .cat-card { position: relative; overflow: hidden; aspect-ratio: 4/3; cursor: pointer; background: #f0efed; }
+    .cat-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.6s var(--ease), transform 0.85s var(--ease); }
+    .cat-card img.loaded { opacity: 1; }
     .cat-card:hover img { transform: scale(1.05); }
     .cat-card-overlay { position: absolute; inset: 0; background: var(--overlay); display: flex; align-items: center; justify-content: center; transition: background 0.35s ease; }
     .cat-card:hover .cat-card-overlay { background: rgba(0,0,0,0.44); }
