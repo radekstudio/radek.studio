@@ -1,4 +1,17 @@
 {
-  "hero": "",
-  "fotky": []
+  "hero": "/images/20250105_104210.jpg",
+  "fotky": [
+    {
+      "src": "/images/IMG-20260207-WA0009.jpg",
+      "alt": "tv stena"
+    },
+    {
+      "src": "/images/IMG-20251015-WA0007.jpg",
+      "alt": "další tv stěna"
+    },
+    {
+      "src": "/images/20240823_164111.png",
+      "alt": "stena tv"
+    }
+  ]
 }
