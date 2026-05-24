@@ -77,11 +77,11 @@
     /* Lightbox */
     .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 200; align-items: center; justify-content: center; }
     .lightbox.open { display: flex; }
-    .lightbox img { max-width: 90vw; max-height: 88vh; object-fit: contain; width: auto; height: auto; }
-    .lb-close { position: absolute; top: 24px; right: 32px; font-size: 36px; color: white; cursor: pointer; background: none; border: none; opacity: 0.65; transition: opacity var(--t); line-height: 1; }
+    .lightbox img { object-fit: contain; width: auto; height: auto; max-width: 90vw; max-height: 90vh; transition: opacity 0.2s ease; }
+    .lb-close { position: absolute; top: 24px; right: 32px; font-size: 36px; color: white; cursor: pointer; background: none; border: none; opacity: 0.65; transition: opacity 0.3s ease; line-height: 1; z-index: 201; }
     .lb-close:hover { opacity: 1; }
-    .lb-prev, .lb-next { position: absolute; top: 50%; transform: translateY(-50%); background: none; border: none; color: white; font-size: 48px; cursor: pointer; opacity: 0.5; transition: opacity var(--t); padding: 24px; line-height: 1; }
-    .lb-prev { left: 8px; } .lb-next { right: 8px; }
+    .lb-prev, .lb-next { position: absolute; top: 50%; transform: translateY(-50%); background: none; border: none; color: white; font-size: 56px; cursor: pointer; opacity: 0.5; transition: opacity 0.3s ease; padding: 24px; line-height: 1; z-index: 201; user-select: none; }
+    .lb-prev { left: 0; } .lb-next { right: 0; }
     .lb-prev:hover, .lb-next:hover { opacity: 1; }
     /* Touch swipe lightbox */
     .lightbox { touch-action: pan-y; }
@@ -234,17 +234,6 @@
 </script>
   <script src="/loader.js"></script>
   <script>
-    window.revealObserver = obs;
-    window.initLightbox = function() {
-      window._lbImgs = Array.from(document.querySelectorAll('.photo-item img'));
-    };
-    window.openLb = function(i) {
-      const imgs = window._lbImgs || Array.from(document.querySelectorAll('.photo-item img'));
-      cur = i;
-      document.getElementById('lbImg').src = imgs[i].src;
-      document.getElementById('lightbox').classList.add('open');
-    };
-    loadCategory('kancelarsky-nabytek', 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80');
   </script>
 </body>
 </html>
