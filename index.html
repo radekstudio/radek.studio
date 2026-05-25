@@ -224,20 +224,6 @@
       .hero { max-height: 520px; }
       .category-card { flex: 0 0 88vw; }
     }
-    /* SPOLUPRÁCE */
-    .spoluprace { background: #f2f2f2; padding: 96px 48px; }
-    .spoluprace h2 { font-size: 36px; font-weight: 300; letter-spacing: 0.02em; margin-bottom: 64px; }
-    .spoluprace-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; }
-    .spoluprace-item { display: flex; flex-direction: column; gap: 20px; }
-    .spoluprace-icon { width: 48px; height: 48px; }
-    .spoluprace-icon img { width: 100%; height: 100%; object-fit: contain; filter: brightness(0); }
-    .spoluprace-label { font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--black); }
-    .spoluprace-text { font-size: 17px; font-weight: 300; line-height: 1.75; color: var(--gray-dark); }
-    @media (max-width: 768px) {
-      .spoluprace { padding: 64px 24px; }
-      .spoluprace h2 { font-size: 28px; margin-bottom: 48px; }
-      .spoluprace-grid { grid-template-columns: 1fr; gap: 40px; }
-    }
   </style>
 </head>
 <body>
@@ -246,7 +232,6 @@
     <div class="nav-left">
       <a href="#uvod">úvod</a>
       <a href="realizace.html">realizace</a>
-      <a href="#spoluprace">spolupráce</a>
       <a href="#o-nas">o nás</a>
     </div>
     <!-- Hamburger vlevo na mobilu -->
@@ -269,7 +254,6 @@
   <div class="mobile-menu" id="mobileMenu">
     <a href="#uvod" onclick="toggleMenu()">úvod</a>
     <a href="realizace.html" onclick="toggleMenu()">realizace</a>
-    <a href="#spoluprace" onclick="toggleMenu()">spolupráce</a>
     <a href="#o-nas" onclick="toggleMenu()">o nás</a>
     <a href="kontakt.html" onclick="toggleMenu()">kontakt</a>
   </div>
@@ -324,27 +308,6 @@
     </div>
   </section>
 
-  <section class="spoluprace" id="spoluprace">
-    <h2 class="reveal">Jak probíhá spolupráce</h2>
-    <div class="spoluprace-grid">
-      <div class="spoluprace-item reveal">
-        <div class="spoluprace-icon"><img src="truck.png" alt="Přijedeme" /></div>
-        <span class="spoluprace-label">Přijedeme</span>
-        <p class="spoluprace-text">[DOPLNIT: Popis prvního kroku spolupráce — příjezd na místo, prohlídka prostoru, první konzultace.]</p>
-      </div>
-      <div class="spoluprace-item reveal">
-        <div class="spoluprace-icon"><img src="ruler.png" alt="Zaměříme" /></div>
-        <span class="spoluprace-label">Zaměříme</span>
-        <p class="spoluprace-text">[DOPLNIT: Popis druhého kroku — zaměření prostoru, návrh řešení, výběr materiálů a barev.]</p>
-      </div>
-      <div class="spoluprace-item reveal">
-        <div class="spoluprace-icon"><img src="settings.png" alt="Vyrobíme" /></div>
-        <span class="spoluprace-label">Vyrobíme</span>
-        <p class="spoluprace-text">[DOPLNIT: Popis třetího kroku — výroba v dílně, montáž na místě, předání hotového díla.]</p>
-      </div>
-    </div>
-  </section>
-
   <footer>
     <div class="footer-grid">
       <div class="footer-brand">
@@ -355,7 +318,7 @@
           <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
         </div>
       </div>
-      <div class="footer-col"><h4>Navigace</h4><ul><li><a href="#uvod">Úvod</a></li><li><a href="realizace.html">Realizace</a></li><li><a href="#spoluprace">Spolupráce</a></li><li><a href="#o-nas">O nás</a></li><li><a href="kontakt.html">Kontakt</a></li></ul></div>
+      <div class="footer-col"><h4>Navigace</h4><ul><li><a href="#uvod">Úvod</a></li><li><a href="realizace.html">Realizace</a></li><li><a href="#o-nas">O nás</a></li><li><a href="kontakt.html">Kontakt</a></li></ul></div>
       <div class="footer-col"><h4>Kontakt</h4><p>[DOPLNIT: telefon]<br />[DOPLNIT: email]<br /><br />[DOPLNIT: adresa]</p></div>
       <div class="footer-col"><h4>Právní informace</h4><ul><li><a href="zasady-ochrany-osobnich-udaju.html">Zásady ochrany osobních údajů</a></li><li><a href="cookies.html">Cookies</a></li></ul><br /><p style="color:rgba(255,255,255,0.3);font-size:13px;">IČO: [DOPLNIT]</p></div>
     </div>
