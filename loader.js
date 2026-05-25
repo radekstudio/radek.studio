@@ -1,8 +1,7 @@
 /**
- * Radek Studio — Dynamic Photo Loader v3
+ * Radek Studio — Dynamic Photo Loader v4
  */
 
-// ── Oprava cesty ────────────────────────────────────────────────
 function fixSrc(src) {
   if (!src) return '';
   return src.startsWith('/images/') ? '/public' + src : src;
@@ -24,12 +23,7 @@ async function loadHomepage() {
     }
   } catch (e) {}
 
-  // Slider kategorie
-  const slugs = [
-    'kuchynske-linky','vestavljene-skrine','obyvaci-pokoje',
-    'koupelnovy-nabytek','detske-pokoje','kancelarsky-nabytek',
-    'loznice','zadveri','satniky','technicka-mistnost','ostatni'
-  ];
+  const slugs = ['kuchynske-linky','vestavljene-skrine','obyvaci-pokoje','koupelnovy-nabytek','detske-pokoje','kancelarsky-nabytek','loznice','zadveri','satniky','technicka-mistnost','ostatni'];
   for (const slug of slugs) {
     const el = document.getElementById(`cat-${slug}`);
     if (!el) continue;
@@ -50,15 +44,16 @@ async function loadCategory(slug, fallbackHero) {
     const res = await fetch(`/_data/${slug}.json`);
     const data = await res.json();
 
-    // Hero fotka
+    // Hero
     const heroImg = document.getElementById('heroImg');
     if (heroImg) {
       const raw = (data.hero && data.hero !== '') ? data.hero : fallbackHero;
-      heroImg.src = fixSrc(raw);
+      const src = fixSrc(raw);
+      heroImg.src = src;
       heroImg.onload = () => setTimeout(() => heroImg.classList.add('visible'), 100);
     }
 
-    // Galerie — sesbírej src předem, pak render
+    // Galerie
     const photos = (data.fotky && data.fotky.length > 0) ? data.fotky : [];
     const grid = document.getElementById('photoGrid');
     if (!grid) return;
@@ -67,28 +62,35 @@ async function loadCategory(slug, fallbackHero) {
     photos.forEach((photo, i) => {
       const div = document.createElement('div');
       div.className = 'photo-item';
+      div.style.cssText = 'aspect-ratio:4/3;overflow:hidden;cursor:pointer;background:#f0efed;';
+
       const img = document.createElement('img');
       img.src = fixSrc(photo.src);
       img.alt = photo.alt || '';
       img.loading = 'lazy';
-      img.style.opacity = '0';
-      img.style.transition = 'opacity 0.6s ease';
-      // Fade in po načtení — žádné blikání
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.5s ease;';
       img.onload = () => { img.style.opacity = '1'; };
       img.onerror = () => { div.style.display = 'none'; };
+
       div.appendChild(img);
       grid.appendChild(div);
-      // Klik na galerii — otevře lightbox od indexu 1 (0 je hero)
+      // index +1 protože 0 je hero
       div.onclick = () => openLb(i + 1);
     });
 
-    // Observer pro galerii
+    // Observer
     if (window.revealObserver) {
       grid.querySelectorAll('.photo-item').forEach(el => window.revealObserver.observe(el));
     }
 
-    // Inicializuj lightbox po renderování galerie
-    setTimeout(() => initLightboxGlobal(), 100);
+    // Hero klikací
+    const heroPhoto = document.querySelector('.hero-photo');
+    if (heroPhoto) {
+      heroPhoto.style.cursor = 'pointer';
+      heroPhoto.onclick = () => openLb(0);
+    }
+
+    setTimeout(() => initLb(), 200);
 
   } catch (e) {
     const heroImg = document.getElementById('heroImg');
@@ -100,52 +102,55 @@ async function loadCategory(slug, fallbackHero) {
 }
 
 // ── Lightbox ─────────────────────────────────────────────────────
-let lbCurrent = 0;
-// lbSrcs = pole URL stringů (hero jako první, pak galerie)
+let lbIdx = 0;
 let lbSrcs = [];
 
-function initLightboxGlobal() {
-  const heroImg = document.getElementById('heroImg');
-  const galleryImgs = Array.from(document.querySelectorAll('.photo-item img'));
-
+function initLb() {
   lbSrcs = [];
-  // Index 0 = hero fotka
-  if (heroImg && heroImg.src && !heroImg.src.endsWith('/')) {
+  // 0 = hero
+  const heroImg = document.getElementById('heroImg');
+  if (heroImg && heroImg.src && heroImg.src !== window.location.href) {
     lbSrcs.push(heroImg.src);
   }
-  // Index 1+ = galerie
-  galleryImgs.forEach(img => {
-    if (img.src && !img.src.endsWith('/')) lbSrcs.push(img.src);
+  // 1+ = galerie
+  document.querySelectorAll('.photo-item img').forEach(img => {
+    if (img.src && img.src !== window.location.href) lbSrcs.push(img.src);
   });
 }
 
 function openLb(i) {
-  initLightboxGlobal();
+  initLb();
   if (!lbSrcs.length) return;
-  lbCurrent = Math.max(0, Math.min(i, lbSrcs.length - 1));
-  showLbImg();
+  lbIdx = Math.max(0, Math.min(i, lbSrcs.length - 1));
+  renderLb();
   const lb = document.getElementById('lightbox');
-  if (lb) {
-    lb.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
+  if (lb) { lb.classList.add('open'); document.body.style.overflow = 'hidden'; }
 }
 
-function showLbImg() {
+function renderLb() {
   const lbImg = document.getElementById('lbImg');
-  if (!lbImg || !lbSrcs[lbCurrent]) return;
+  if (!lbImg || !lbSrcs[lbIdx]) return;
 
-  // Detekce portrait/landscape pomocí Image objektu
-  const tmpImg = new Image();
-  tmpImg.onload = () => {
-    const isPortrait = tmpImg.naturalHeight > tmpImg.naturalWidth;
-    lbImg.style.maxWidth = isPortrait ? '56vh' : '90vw';
-    lbImg.style.maxHeight = isPortrait ? '90vh' : '56.25vw';
-    lbImg.style.width = 'auto';
-    lbImg.style.height = 'auto';
+  // Detekce portrait/landscape — nastav aspect ratio
+  const tmp = new Image();
+  tmp.onload = () => {
+    const portrait = tmp.naturalHeight > tmp.naturalWidth;
+    if (portrait) {
+      // 9:16 — na výšku
+      lbImg.style.maxHeight = '88vh';
+      lbImg.style.maxWidth = '49.5vh'; // 88vh * 9/16
+      lbImg.style.width = 'auto';
+      lbImg.style.height = '88vh';
+    } else {
+      // 16:9 — na šířku
+      lbImg.style.maxWidth = '88vw';
+      lbImg.style.maxHeight = '49.5vw'; // 88vw * 9/16
+      lbImg.style.width = '88vw';
+      lbImg.style.height = 'auto';
+    }
   };
-  tmpImg.src = lbSrcs[lbCurrent];
-  lbImg.src = lbSrcs[lbCurrent];
+  tmp.src = lbSrcs[lbIdx];
+  lbImg.src = lbSrcs[lbIdx];
 }
 
 function closeLb() {
@@ -156,18 +161,9 @@ function closeLb() {
 
 function lbNav(dir) {
   if (!lbSrcs.length) return;
-  lbCurrent = (lbCurrent + dir + lbSrcs.length) % lbSrcs.length;
-  showLbImg();
+  lbIdx = (lbIdx + dir + lbSrcs.length) % lbSrcs.length;
+  renderLb();
 }
-
-// Hero foto klikací — otevře lightbox od indexu 0
-document.addEventListener('DOMContentLoaded', () => {
-  const heroPhoto = document.querySelector('.hero-photo');
-  if (heroPhoto) {
-    heroPhoto.style.cursor = 'pointer';
-    heroPhoto.addEventListener('click', () => openLb(0));
-  }
-});
 
 // Keyboard
 document.addEventListener('keydown', e => {
@@ -178,33 +174,29 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight') lbNav(1);
 });
 
-// Click outside lightbox
+// Click outside
 document.addEventListener('click', e => {
   const lb = document.getElementById('lightbox');
   if (lb && e.target === lb) closeLb();
 });
 
-// Touch swipe v lightboxu
-let lbTouchX = 0;
+// Touch swipe
+let lbTX = 0;
 document.addEventListener('touchstart', e => {
   const lb = document.getElementById('lightbox');
-  if (lb && lb.classList.contains('open')) lbTouchX = e.touches[0].clientX;
+  if (lb && lb.classList.contains('open')) lbTX = e.touches[0].clientX;
 }, { passive: true });
 document.addEventListener('touchend', e => {
   const lb = document.getElementById('lightbox');
   if (lb && lb.classList.contains('open')) {
-    const diff = e.changedTouches[0].clientX - lbTouchX;
-    if (Math.abs(diff) > 50) lbNav(diff < 0 ? 1 : -1);
+    const d = e.changedTouches[0].clientX - lbTX;
+    if (Math.abs(d) > 50) lbNav(d < 0 ? 1 : -1);
   }
 });
 
-// ── Stránka Realizace ────────────────────────────────────────────
+// ── Realizace grid ───────────────────────────────────────────────
 async function loadRealizace() {
-  const slugs = [
-    'kuchynske-linky','vestavljene-skrine','obyvaci-pokoje',
-    'koupelnovy-nabytek','detske-pokoje','kancelarsky-nabytek',
-    'loznice','zadveri','satniky','technicka-mistnost','ostatni'
-  ];
+  const slugs = ['kuchynske-linky','vestavljene-skrine','obyvaci-pokoje','koupelnovy-nabytek','detske-pokoje','kancelarsky-nabytek','loznice','zadveri','satniky','technicka-mistnost','ostatni'];
   for (const slug of slugs) {
     const el = document.getElementById(`cat-${slug}`);
     if (!el) continue;
