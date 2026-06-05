@@ -157,6 +157,32 @@ collections:
               - { label: "Fotka", name: "src", widget: "image" }
               - { label: "Popis (SEO)", name: "alt", widget: "string" }
 
+      - name: "kancelarsky-nabytek"
+        label: "Kancelářský nábytek"
+        file: "_data/kancelarsky-nabytek.json"
+        fields:
+          - { label: "Hero fotka", name: "hero", widget: "image" }
+          - label: "Fotogalerie"
+            name: "fotky"
+            widget: "list"
+            label_singular: "Fotka"
+            fields:
+              - { label: "Fotka", name: "src", widget: "image" }
+              - { label: "Popis (SEO)", name: "alt", widget: "string" }
+
+      - name: "komody"
+        label: "Komody"
+        file: "_data/komody.json"
+        fields:
+          - { label: "Hero fotka", name: "hero", widget: "image" }
+          - label: "Fotogalerie"
+            name: "fotky"
+            widget: "list"
+            label_singular: "Fotka"
+            fields:
+              - { label: "Fotka", name: "src", widget: "image" }
+              - { label: "Popis (SEO)", name: "alt", widget: "string" }
+
       - name: "ostatni"
         label: "Ostatní"
         file: "_data/ostatni.json"
