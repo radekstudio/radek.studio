@@ -23,7 +23,7 @@ async function loadHomepage() {
     }
   } catch (e) {}
 
-  const slugs = ['kuchynske-linky','vestavljene-skrine','obyvaci-pokoje','koupelnovy-nabytek','detske-pokoje','kancelarsky-nabytek','loznice','zadveri','satniky','technicka-mistnost','ostatni'];
+  const slugs = ['kuchynske-linky','vestavljene-skrine','koupelnovy-nabytek','kancelarsky-nabytek','komody','ostatni'];
   for (const slug of slugs) {
     const el = document.getElementById(`cat-${slug}`);
     if (!el) continue;
@@ -196,7 +196,7 @@ document.addEventListener('touchend', e => {
 
 // ── Realizace grid ───────────────────────────────────────────────
 async function loadRealizace() {
-  const slugs = ['kuchynske-linky','vestavljene-skrine','obyvaci-pokoje','koupelnovy-nabytek','detske-pokoje','kancelarsky-nabytek','loznice','zadveri','satniky','technicka-mistnost','ostatni'];
+  const slugs = ['kuchynske-linky','vestavljene-skrine','koupelnovy-nabytek','kancelarsky-nabytek','komody','ostatni'];
   for (const slug of slugs) {
     const el = document.getElementById(`cat-${slug}`);
     if (!el) continue;
