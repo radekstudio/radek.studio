@@ -63,6 +63,8 @@
     .mobile-menu.open a:nth-child(4) { transition-delay: 0.2s; }
 
     /* PAGE */
+    .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; letter-spacing: 0.06em; color: var(--gray-mid); text-transform: uppercase; margin-bottom: 20px; transition: color 0.3s ease; }
+    .back-link:hover { color: var(--black); }
     .page-wrap { margin-top: 72px; padding: 56px 48px 96px; }
     .page-title { font-size: 36px; font-weight: 300; letter-spacing: 0.02em; margin-bottom: 40px; }
 
@@ -155,6 +157,7 @@
 </div>
 
 <div class="page-wrap">
+  <a href="../realizace.html" class="back-link reveal">← Všechny realizace</a>
   <h1 class="page-title reveal">Kancelářský nábytek</h1>
 
   <div class="hero-photo" onclick="openLb(0)">
