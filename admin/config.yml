@@ -27,6 +27,7 @@ collections:
   - name: "kategorie"
     label: "Kategorie realizací"
     files:
+
       - name: "kuchynske-linky"
         label: "Kuchyňské linky"
         file: "_data/kuchynske-linky.json"
@@ -53,100 +54,9 @@ collections:
               - { label: "Fotka", name: "src", widget: "image" }
               - { label: "Popis (SEO)", name: "alt", widget: "string" }
 
-      - name: "obyvaci-pokoje"
-        label: "Obývací pokoje"
-        file: "_data/obyvaci-pokoje.json"
-        fields:
-          - { label: "Hero fotka", name: "hero", widget: "image" }
-          - label: "Fotogalerie"
-            name: "fotky"
-            widget: "list"
-            label_singular: "Fotka"
-            fields:
-              - { label: "Fotka", name: "src", widget: "image" }
-              - { label: "Popis (SEO)", name: "alt", widget: "string" }
-
       - name: "koupelnovy-nabytek"
         label: "Koupelnový nábytek"
         file: "_data/koupelnovy-nabytek.json"
-        fields:
-          - { label: "Hero fotka", name: "hero", widget: "image" }
-          - label: "Fotogalerie"
-            name: "fotky"
-            widget: "list"
-            label_singular: "Fotka"
-            fields:
-              - { label: "Fotka", name: "src", widget: "image" }
-              - { label: "Popis (SEO)", name: "alt", widget: "string" }
-
-      - name: "detske-pokoje"
-        label: "Dětské pokoje"
-        file: "_data/detske-pokoje.json"
-        fields:
-          - { label: "Hero fotka", name: "hero", widget: "image" }
-          - label: "Fotogalerie"
-            name: "fotky"
-            widget: "list"
-            label_singular: "Fotka"
-            fields:
-              - { label: "Fotka", name: "src", widget: "image" }
-              - { label: "Popis (SEO)", name: "alt", widget: "string" }
-
-      - name: "kancelarsky-nabytek"
-        label: "Kancelářský nábytek"
-        file: "_data/kancelarsky-nabytek.json"
-        fields:
-          - { label: "Hero fotka", name: "hero", widget: "image" }
-          - label: "Fotogalerie"
-            name: "fotky"
-            widget: "list"
-            label_singular: "Fotka"
-            fields:
-              - { label: "Fotka", name: "src", widget: "image" }
-              - { label: "Popis (SEO)", name: "alt", widget: "string" }
-
-      - name: "loznice"
-        label: "Ložnice"
-        file: "_data/loznice.json"
-        fields:
-          - { label: "Hero fotka", name: "hero", widget: "image" }
-          - label: "Fotogalerie"
-            name: "fotky"
-            widget: "list"
-            label_singular: "Fotka"
-            fields:
-              - { label: "Fotka", name: "src", widget: "image" }
-              - { label: "Popis (SEO)", name: "alt", widget: "string" }
-
-      - name: "zadveri"
-        label: "Zádveří"
-        file: "_data/zadveri.json"
-        fields:
-          - { label: "Hero fotka", name: "hero", widget: "image" }
-          - label: "Fotogalerie"
-            name: "fotky"
-            widget: "list"
-            label_singular: "Fotka"
-            fields:
-              - { label: "Fotka", name: "src", widget: "image" }
-              - { label: "Popis (SEO)", name: "alt", widget: "string" }
-
-      - name: "satniky"
-        label: "Šatníky"
-        file: "_data/satniky.json"
-        fields:
-          - { label: "Hero fotka", name: "hero", widget: "image" }
-          - label: "Fotogalerie"
-            name: "fotky"
-            widget: "list"
-            label_singular: "Fotka"
-            fields:
-              - { label: "Fotka", name: "src", widget: "image" }
-              - { label: "Popis (SEO)", name: "alt", widget: "string" }
-
-      - name: "technicka-mistnost"
-        label: "Technická místnost"
-        file: "_data/technicka-mistnost.json"
         fields:
           - { label: "Hero fotka", name: "hero", widget: "image" }
           - label: "Fotogalerie"
