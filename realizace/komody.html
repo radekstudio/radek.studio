@@ -124,6 +124,25 @@
       .footer-bottom { flex-direction: column; }
     }
     @media (max-width: 480px) { .photo-grid { grid-template-columns: 1fr; } }
+    /* SEARCH */
+    .search-btn { background: none; border: none; cursor: pointer; padding: 4px; display: flex; align-items: center; }
+    .search-btn svg { width: 18px; height: 18px; stroke: var(--gray-dark); transition: stroke 0.35s ease; }
+    .search-btn:hover svg { stroke: var(--black); }
+    .search-bar { position: fixed; top: 72px; left: 0; right: 0; z-index: 98; background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.08); padding: 0 48px; max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.25, 1, 0.35, 1), padding 0.4s cubic-bezier(0.25, 1, 0.35, 1); }
+    .search-bar.open { max-height: 80px; padding: 16px 48px; }
+    .search-bar input { width: 100%; font-family: var(--font); font-size: 18px; font-weight: 300; border: none; outline: none; background: none; color: var(--black); letter-spacing: 0.02em; }
+    .search-bar input::placeholder { color: var(--gray-mid); }
+    .search-results { position: fixed; top: 72px; left: 0; right: 0; bottom: 0; z-index: 97; background: var(--white); overflow-y: auto; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; padding: 140px 48px 64px; }
+    .search-results.visible { opacity: 1; pointer-events: all; }
+    .search-results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .search-results h3 { font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-mid); margin-bottom: 32px; font-weight: 400; }
+    .search-result-item { position: relative; overflow: hidden; aspect-ratio: 4/3; cursor: pointer; background: #f0efed; display: block; }
+    .search-result-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .search-result-item:hover img { transform: scale(1.04); }
+    .search-result-label { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.5); color: white; font-size: 13px; padding: 8px 12px; letter-spacing: 0.04em; }
+    .search-no-results { font-size: 18px; color: var(--gray-mid); font-style: italic; }
+    @media (max-width: 768px) { .search-bar.open { padding: 14px 24px; } .search-results { padding: 140px 24px 48px; } .search-results-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .search-results-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -157,6 +176,16 @@
   <a href="../index.html#o-nas" onclick="toggleMenu()">o nás</a>
   <a href="../kontakt.html" onclick="toggleMenu()">kontakt</a>
 </div>
+
+  <!-- SEARCH BAR -->
+  <div class="search-bar" id="searchBar">
+    <input type="text" id="searchInput" placeholder="Hledat realizace…" autocomplete="off" />
+  </div>
+  <!-- SEARCH RESULTS -->
+  <div class="search-results" id="searchResults">
+    <h3 id="searchResultsTitle"></h3>
+    <div class="search-results-grid" id="searchResultsGrid"></div>
+  </div>
 
 <div class="page-wrap">
   <a href="../realizace.html" class="back-link reveal">← Všechny realizace</a>
@@ -223,6 +252,71 @@
 
   // Načti kategorii
   loadCategory('komody', 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1600&q=80');
+    /* Search */
+    let allPhotos = [];
+    const PREFIX = window.location.pathname.includes('/realizace/') ? '../' : '';
+
+    async function buildSearchIndex() {
+      const categories = [
+        { slug: 'kuchynske-linky', name: 'Kuchyňské linky' },
+        { slug: 'vestavljene-skrine', name: 'Vestavěné skříně' },
+        { slug: 'koupelnovy-nabytek', name: 'Koupelnový nábytek' },
+        { slug: 'kancelarsky-nabytek', name: 'Kancelářský nábytek' },
+        { slug: 'komody', name: 'Komody' },
+        { slug: 'ostatni', name: 'Ostatní' },
+      ];
+      for (const cat of categories) {
+        try {
+          const res = await fetch(`${PREFIX === '' ? '/_data/' : '/_data/'}${cat.slug}.json`);
+          const data = await res.json();
+          if (data.hero) allPhotos.push({ src: data.hero, alt: cat.name, slug: cat.slug, categoryName: cat.name });
+          if (data.fotky) data.fotky.forEach(f => { if (f.src) allPhotos.push({ src: f.src, alt: f.alt || cat.name, slug: cat.slug, categoryName: cat.name }); });
+        } catch(e) {}
+      }
+    }
+    buildSearchIndex();
+
+    function fixSrcSearch(src) { return src && src.startsWith('/images/') ? '/public' + src : src || ''; }
+
+    function toggleSearch() {
+      const bar = document.getElementById('searchBar');
+      const input = document.getElementById('searchInput');
+      if (bar.classList.toggle('open')) setTimeout(() => input.focus(), 300);
+      else closeSearch();
+    }
+
+    function closeSearch() {
+      document.getElementById('searchBar').classList.remove('open');
+      document.getElementById('searchResults').classList.remove('visible');
+      document.getElementById('searchInput').value = '';
+      document.getElementById('searchResultsGrid').innerHTML = '';
+    }
+
+    document.getElementById('searchInput').addEventListener('input', function() {
+      const q = this.value.trim().toLowerCase();
+      const resultsEl = document.getElementById('searchResults');
+      const grid = document.getElementById('searchResultsGrid');
+      const title = document.getElementById('searchResultsTitle');
+      if (q.length < 2) { resultsEl.classList.remove('visible'); return; }
+      const found = allPhotos.filter(p => p.alt.toLowerCase().includes(q) || p.categoryName.toLowerCase().includes(q));
+      grid.innerHTML = '';
+      title.textContent = found.length > 0 ? `Nalezeno ${found.length} výsledků pro „${q}"` : '';
+      if (found.length === 0) {
+        grid.innerHTML = `<p class="search-no-results">Žádné výsledky pro „${q}"</p>`;
+      } else {
+        found.forEach(photo => {
+          const catPath = PREFIX + 'realizace/' + photo.slug + '.html';
+          const item = document.createElement('a');
+          item.href = catPath;
+          item.className = 'search-result-item';
+          item.innerHTML = `<img src="${fixSrcSearch(photo.src)}" alt="${photo.alt}" loading="lazy" /><span class="search-result-label">${photo.alt || photo.categoryName}</span>`;
+          grid.appendChild(item);
+        });
+      }
+      resultsEl.classList.add('visible');
+    });
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSearch(); });
 </script>
 </body>
 </html>
