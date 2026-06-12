@@ -447,18 +447,6 @@
     </div>
   </section>
 
-  <!-- SEARCH BAR -->
-  <div class="search-bar" id="searchBar">
-    <input type="text" id="searchInput" placeholder="Hledat realizace..." autocomplete="off" />
-  </div>
-
-  <!-- SEARCH RESULTS -->
-  <div class="search-results" id="searchResults">
-    <span class="search-count" id="searchCount"></span>
-    <div class="search-results-grid" id="searchGrid"></div>
-    <p class="search-no-results" id="searchNoResults" style="display:none">Žádné výsledky pro toto hledání.</p>
-  </div>
-
   <footer>
     <div class="footer-grid">
       <div class="footer-brand">
@@ -670,7 +658,17 @@
       resultsEl.classList.add('visible');
     });
 
-    // Zavřít search při kliknutí mimo
+    // Zavřít search při kliknutí mimo (lišta + ikona + výsledky)
+    document.addEventListener('click', e => {
+      const bar = document.getElementById('searchBar');
+      const btn = document.getElementById('searchBtn');
+      const results = document.getElementById('searchResults');
+      if (!bar.classList.contains('open')) return;
+      if (bar.contains(e.target) || btn.contains(e.target) || results.contains(e.target)) return;
+      closeSearch();
+    });
+
+    // ESC zavře vyhledávání
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') closeSearch();
     });

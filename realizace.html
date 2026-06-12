@@ -300,6 +300,16 @@
       resultsEl.classList.add('visible');
     });
 
+    // Zavřít search při kliknutí mimo
+    document.addEventListener('click', e => {
+      const bar = document.getElementById('searchBar');
+      const btn = document.getElementById('searchBtn');
+      const results = document.getElementById('searchResults');
+      if (!bar.classList.contains('open')) return;
+      if (bar.contains(e.target) || btn.contains(e.target) || results.contains(e.target)) return;
+      closeSearch();
+    });
+
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSearch(); });
   </script>
 <script src="/loader.js"></script>
