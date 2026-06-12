@@ -1,4 +1,21 @@
 {
-  "hero": "",
-  "fotky": []
+  "hero": "/images/20250105_104210.jpg",
+  "fotky": [
+    {
+      "src": "/images/IMG-20251015-WA0007.jpg",
+      "alt": "tv stul"
+    },
+    {
+      "src": "/images/Gemini_Generated_Image_5v0e8g5v0e8g5v0e.png",
+      "alt": "komoda"
+    },
+    {
+      "src": "/images/20250617_184854.png",
+      "alt": "komoda 2"
+    },
+    {
+      "src": "/images/20250203_164647.png",
+      "alt": "komoda 3"
+    }
+  ]
 }
