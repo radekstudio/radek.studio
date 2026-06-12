@@ -1,4 +1,9 @@
 {
-  "hero": "",
-  "fotky": []
+  "hero": "/images/IMG_20220509_181137_664.jpg",
+  "fotky": [
+    {
+      "src": "/images/IMG-20260207-WA0017.jpg",
+      "alt": "věšák"
+    }
+  ]
 }
