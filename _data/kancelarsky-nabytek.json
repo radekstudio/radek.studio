@@ -1,4 +1,13 @@
 {
-  "hero": "",
-  "fotky": []
+  "hero": "/images/IMG_20240113_155736_093.png",
+  "fotky": [
+    {
+      "src": "/images/Gemini_Generated_Image_5zq7r15zq7r15zq7.png",
+      "alt": "stůl"
+    },
+    {
+      "src": "/images/Gemini_Generated_Image_hgno28hgno28hgno.png",
+      "alt": "stůl 2"
+    }
+  ]
 }
