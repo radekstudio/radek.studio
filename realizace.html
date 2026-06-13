@@ -112,37 +112,6 @@
     .page-header { margin-top: 72px; padding: 72px 48px 56px; }
     .page-header h1 { font-size: 44px; font-weight: 300; letter-spacing: 0.02em; }
 
-    /* Inline search next to heading */
-    .page-header-top { display: flex; align-items: center; gap: 20px; }
-    .search-btn { background: none; border: none; cursor: pointer; padding: 8px; display: flex; align-items: center; flex-shrink: 0; }
-    .search-btn svg { width: 22px; height: 22px; stroke: var(--gray-mid); transition: stroke var(--t); }
-    .search-btn:hover svg { stroke: var(--black); }
-    .search-bar { flex: 1; max-width: 0; overflow: hidden; transition: max-width 0.45s cubic-bezier(0.25,1,0.35,1); }
-    .search-bar.open { max-width: 420px; }
-    .search-bar input {
-      width: 100%; border: none; outline: none; background: none;
-      border-bottom: 1px solid rgba(0,0,0,0.15);
-      font-family: var(--font); font-size: 20px; font-weight: 300;
-      color: var(--black); letter-spacing: 0.02em; padding: 4px 0 8px;
-    }
-    .search-bar input::placeholder { color: var(--gray-mid); }
-
-    /* Small results strip below header */
-    .search-results-strip {
-      display: flex; gap: 12px; overflow-x: auto; padding: 0 48px;
-      max-height: 0; opacity: 0; transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.4s ease;
-    }
-    .search-results-strip.visible { max-height: 140px; opacity: 1; padding: 16px 48px 0; }
-    .search-results-strip a { flex: 0 0 112px; width: 112px; height: 112px; overflow: hidden; background: #f0efed; position: relative; }
-    .search-results-strip img {
-      width: 100%; height: 100%; object-fit: cover;
-      opacity: 0; transform: scale(1.08);
-      transition: opacity 0.5s cubic-bezier(0.25,1,0.35,1), transform 0.6s cubic-bezier(0.25,1,0.35,1);
-    }
-    .search-results-strip img.loaded { opacity: 1; transform: scale(1); }
-    .search-results-strip a:hover img.loaded { transform: scale(1.06); }
-    .search-strip-empty { font-size: 15px; color: var(--gray-mid); font-style: italic; align-self: center; }
-
     .categories-grid { padding: 0 48px 96px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
     .cat-card { position: relative; overflow: hidden; aspect-ratio: 4/3; cursor: pointer; background: #f0efed; }
     .cat-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.6s var(--ease), transform 0.85s var(--ease); }
@@ -152,7 +121,7 @@
     .cat-card:hover .cat-card-overlay { background: rgba(0,0,0,0.44); }
     .cat-card-overlay span { color: white; font-size: 17px; font-weight: 400; letter-spacing: 0.06em; text-align: center; padding: 0 16px; }
     @media (max-width: 1024px) { .categories-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 768px) { .page-header { padding: 48px 24px 40px; } .page-header h1 { font-size: 32px; } .categories-grid { padding: 0 24px 64px; grid-template-columns: repeat(2, 1fr); gap: 10px; } .search-bar.open { max-width: 200px; } .search-results-strip { padding: 0 24px; } .search-results-strip.visible { padding: 16px 24px 0; } }
+    @media (max-width: 768px) { .page-header { padding: 48px 24px 40px; } .page-header h1 { font-size: 32px; } .categories-grid { padding: 0 24px 64px; grid-template-columns: repeat(2, 1fr); gap: 10px; } }
     @media (max-width: 480px) { .categories-grid { grid-template-columns: 1fr; } }
     .nav-social a, .mobile-social a, .footer-social a { transition: opacity 0.3s ease; }
     .nav-social a:hover, .mobile-social a:hover, .footer-social a:hover { opacity: 0.7; }
@@ -226,18 +195,8 @@
 
 
   <div class="page-header">
-    <div class="page-header-top">
-      <h1 class="reveal">Všechny realizace</h1>
-      <button class="search-btn" id="searchBtn" aria-label="Hledat" onclick="toggleSearch()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      </button>
-      <div class="search-bar" id="searchBar">
-        <input type="text" id="searchInput" placeholder="Hledat podle popisu fotky…" autocomplete="off" />
-      </div>
-    </div>
+    <h1 class="reveal">Všechny realizace</h1>
   </div>
-
-  <div class="search-results-strip" id="searchResultsStrip"></div>
 
   <div class="categories-grid reveal-group">
     <a href="realizace/kuchynske-linky.html" class="cat-card reveal"><img id="cat-kuchynske-linky" alt="Kuchyňské linky" loading="lazy" /><div class="cat-card-overlay"><span>kuchyňské linky</span></div></a>
@@ -284,91 +243,6 @@
       }
     });
 
-    /* Vyhledávání podle popisu fotek */
-    let allPhotos = [];
-    async function buildSearchIndex() {
-      const categories = [
-        { slug: 'kuchynske-linky', name: 'Kuchyňské linky' },
-        { slug: 'vestavljene-skrine', name: 'Vestavěné skříně' },
-        { slug: 'koupelnovy-nabytek', name: 'Koupelnový nábytek' },
-        { slug: 'kancelarsky-nabytek', name: 'Kancelářský nábytek' },
-        { slug: 'komody', name: 'Komody' },
-        { slug: 'ostatni', name: 'Ostatní' },
-      ];
-      for (const cat of categories) {
-        try {
-          const res = await fetch(`/_data/${cat.slug}.json`);
-          const data = await res.json();
-          if (data.hero) allPhotos.push({ src: data.hero, alt: cat.name, slug: cat.slug, categoryName: cat.name });
-          if (data.fotky) data.fotky.forEach(f => { if (f.src) allPhotos.push({ src: f.src, alt: f.alt || cat.name, slug: cat.slug, categoryName: cat.name }); });
-        } catch(e) {}
-      }
-    }
-    buildSearchIndex();
-
-    function fixSrcSearch(src) { return src && src.startsWith('/images/') ? '/public' + src : src || ''; }
-
-    function toggleSearch() {
-      const bar = document.getElementById('searchBar');
-      const input = document.getElementById('searchInput');
-      if (bar.classList.toggle('open')) {
-        setTimeout(() => input.focus(), 250);
-      } else {
-        closeSearch();
-      }
-    }
-
-    function closeSearch() {
-      document.getElementById('searchBar').classList.remove('open');
-      document.getElementById('searchResultsStrip').classList.remove('visible');
-      document.getElementById('searchInput').value = '';
-      document.getElementById('searchResultsStrip').innerHTML = '';
-    }
-
-    document.getElementById('searchInput').addEventListener('input', function() {
-      const q = this.value.trim().toLowerCase();
-      const strip = document.getElementById('searchResultsStrip');
-
-      if (q.length < 2) {
-        strip.classList.remove('visible');
-        return;
-      }
-
-      const found = allPhotos.filter(p =>
-        p.alt.toLowerCase().includes(q) || p.categoryName.toLowerCase().includes(q)
-      );
-
-      strip.innerHTML = '';
-      if (found.length === 0) {
-        strip.innerHTML = `<span class="search-strip-empty">Žádné výsledky pro „${q}"</span>`;
-      } else {
-        found.forEach(photo => {
-          const item = document.createElement('a');
-          item.href = `realizace/${photo.slug}.html`;
-          item.title = photo.alt || photo.categoryName;
-          const img = document.createElement('img');
-          img.src = fixSrcSearch(photo.src);
-          img.alt = photo.alt || photo.categoryName;
-          img.loading = 'lazy';
-          img.onload = () => img.classList.add('loaded');
-          item.appendChild(img);
-          strip.appendChild(item);
-        });
-      }
-      strip.classList.add('visible');
-    });
-
-    // Zavřít search při kliknutí mimo
-    document.addEventListener('click', e => {
-      const bar = document.getElementById('searchBar');
-      const btn = document.getElementById('searchBtn');
-      const strip = document.getElementById('searchResultsStrip');
-      if (!bar.classList.contains('open')) return;
-      if (bar.contains(e.target) || btn.contains(e.target) || strip.contains(e.target)) return;
-      closeSearch();
-    });
-
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSearch(); });
   </script>
 <script src="/loader.js"></script>
   <script>loadRealizace();</script>
