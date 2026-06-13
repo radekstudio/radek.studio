@@ -124,28 +124,22 @@
       .footer-bottom { flex-direction: column; }
     }
     @media (max-width: 480px) { .photo-grid { grid-template-columns: 1fr; } }
-    /* SEARCH */
-    .search-btn { background: none; border: none; cursor: pointer; padding: 4px; display: flex; align-items: center; }
-    .search-btn svg { width: 18px; height: 18px; stroke: var(--gray-dark); transition: stroke 0.35s ease; }
-    .search-btn:hover svg { stroke: var(--black); }
-    .search-bar { position: fixed; top: 72px; left: 0; right: 0; z-index: 98; background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.08); padding: 0 48px; max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.25, 1, 0.35, 1), padding 0.4s cubic-bezier(0.25, 1, 0.35, 1); }
-    .search-bar.open { max-height: 80px; padding: 16px 48px; }
-    .search-bar input { width: 100%; font-family: var(--font); font-size: 18px; font-weight: 300; border: none; outline: none; background: none; color: var(--black); letter-spacing: 0.02em; }
-    .search-bar input::placeholder { color: var(--gray-mid); }
-    .search-results { position: fixed; top: 72px; left: 0; right: 0; bottom: 0; z-index: 97; background: var(--white); overflow-y: auto; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; padding: 140px 48px 64px; }
-    .search-results.visible { opacity: 1; pointer-events: all; }
-    .search-results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .search-results h3 { font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-mid); margin-bottom: 32px; font-weight: 400; }
-    .search-result-item { position: relative; overflow: hidden; aspect-ratio: 4/3; cursor: pointer; background: #f0efed; display: block; }
-    .search-result-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-    .search-result-item:hover img { transform: scale(1.04); }
-    .search-result-label { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.5); color: white; font-size: 13px; padding: 8px 12px; letter-spacing: 0.04em; }
-    .search-no-results { font-size: 18px; color: var(--gray-mid); font-style: italic; }
-    @media (max-width: 768px) { .search-bar.open { padding: 14px 24px; } .search-results { padding: 140px 24px 48px; } .search-results-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 480px) { .search-results-grid { grid-template-columns: 1fr; } }
+    .nav-social a, .mobile-social a, .footer-social a { transition: opacity 0.3s ease; }
+    .nav-social a:hover, .mobile-social a:hover, .footer-social a:hover { opacity: 0.7; }
   </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="igGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFDC80"/>
+      <stop offset="25%" stop-color="#FCAF45"/>
+      <stop offset="50%" stop-color="#E1306C"/>
+      <stop offset="75%" stop-color="#C13584"/>
+      <stop offset="100%" stop-color="#5851DB"/>
+    </linearGradient>
+  </defs>
+</svg>
 
 <nav>
   <div class="nav-left">
@@ -157,18 +151,15 @@
   <a href="../index.html" class="nav-logo"><img src="../radek_studio.svg" alt="Radek Studio" /></a>
   <div class="nav-right">
     <div class="nav-social">
-      <a href="https://www.instagram.com/radek.studio/" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-      <a href="https://www.facebook.com/people/Radek-Studio/61590328727192/" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+      <a href="https://www.instagram.com/radek.studio/" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path fill="url(#igGradient)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+      <a href="https://www.facebook.com/people/Radek-Studio/61590328727192/" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path fill="#0866FF" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
     </div>
     <a href="../kontakt.html">kontakt</a>
-    <button class="search-btn" id="searchBtn" aria-label="Hledat" onclick="toggleSearch()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    </button>
   </div>
   <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()"><span></span><span></span><span></span></button>
   <div class="mobile-social">
-    <a href="https://www.instagram.com/radek.studio/" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-    <a href="https://www.facebook.com/people/Radek-Studio/61590328727192/" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+    <a href="https://www.instagram.com/radek.studio/" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path fill="url(#igGradient)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+    <a href="https://www.facebook.com/people/Radek-Studio/61590328727192/" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path fill="#0866FF" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
   </div>
 </nav>
 
@@ -180,15 +171,6 @@
   <a href="../kontakt.html" onclick="toggleMenu()">kontakt</a>
 </div>
 
-  <!-- SEARCH BAR -->
-  <div class="search-bar" id="searchBar">
-    <input type="text" id="searchInput" placeholder="Hledat realizace…" autocomplete="off" />
-  </div>
-  <!-- SEARCH RESULTS -->
-  <div class="search-results" id="searchResults">
-    <h3 id="searchResultsTitle"></h3>
-    <div class="search-results-grid" id="searchResultsGrid"></div>
-  </div>
 
 <div class="page-wrap">
   <a href="../realizace.html" class="back-link reveal">← Všechny realizace</a>
@@ -214,12 +196,12 @@
       <span class="footer-logo"><img src="../radek_studio.svg" alt="Radek Studio" /></span>
       <p>Zakázková výroba kvalitního dřevěného nábytku na míru. Od návrhu až po finální realizaci.</p>
       <div class="footer-social">
-        <a href="https://www.instagram.com/radek.studio/" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-        <a href="https://www.facebook.com/people/Radek-Studio/61590328727192/" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+        <a href="https://www.instagram.com/radek.studio/" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path fill="url(#igGradient)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+        <a href="https://www.facebook.com/people/Radek-Studio/61590328727192/" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path fill="#0866FF" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
       </div>
     </div>
     <div class="footer-col"><h4>Navigace</h4><ul><li><a href="../index.html">Úvod</a></li><li><a href="../realizace.html">Realizace</a></li><li><a href="../index.html#spoluprace">Spolupráce</a></li><li><a href="../index.html#o-nas">O nás</a></li><li><a href="../kontakt.html">Kontakt</a></li></ul></div>
-    <div class="footer-col"><h4>Kontakt</h4><p><a href="tel:+420606664394" style="color:rgba(255,255,255,0.65);">606 664 394</a><br /><a href="tel:+420736209164" style="color:rgba(255,255,255,0.65);">736 209 164</a><br />info@radekstudio.cz<br /><br />Hranice, 753 01</p></div>
+    <div class="footer-col"><h4>Kontakt</h4><p style="margin-bottom:14px;"><span style="color:rgba(255,255,255,0.32);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;">Objednávky</span><br/><a href="tel:+420736209164" style="color:rgba(255,255,255,0.65);">736 209 164</a></p><p style="margin-bottom:14px;"><span style="color:rgba(255,255,255,0.32);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;">Výroba</span><br/><a href="tel:+420606664394" style="color:rgba(255,255,255,0.65);">606 664 394</a></p><p>info@radekstudio.cz<br />Hranice, 753 01</p></div>
     <div class="footer-col"><h4>Právní informace</h4><ul><li><a href="../zasady-ochrany-osobnich-udaju.html">Zásady ochrany osobních údajů</a></li><li><a href="../cookies.html">Cookies</a></li></ul><br /><p style="color:rgba(255,255,255,0.3);font-size:13px;">IČO: 14291452<br/>DIČ: 8803086171</p></div>
   </div>
   <div class="footer-bottom"><p>© 2025 Radek Studio. Všechna práva vyhrazena.</p><p>Zakázková výroba nábytku na míru</p></div>
@@ -255,81 +237,6 @@
 
   // Načti kategorii
   loadCategory('komody', 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1600&q=80');
-    /* Search */
-    let allPhotos = [];
-    const PREFIX = window.location.pathname.includes('/realizace/') ? '../' : '';
-
-    async function buildSearchIndex() {
-      const categories = [
-        { slug: 'kuchynske-linky', name: 'Kuchyňské linky' },
-        { slug: 'vestavljene-skrine', name: 'Vestavěné skříně' },
-        { slug: 'koupelnovy-nabytek', name: 'Koupelnový nábytek' },
-        { slug: 'kancelarsky-nabytek', name: 'Kancelářský nábytek' },
-        { slug: 'komody', name: 'Komody' },
-        { slug: 'ostatni', name: 'Ostatní' },
-      ];
-      for (const cat of categories) {
-        try {
-          const res = await fetch(`${PREFIX === '' ? '/_data/' : '/_data/'}${cat.slug}.json`);
-          const data = await res.json();
-          if (data.hero) allPhotos.push({ src: data.hero, alt: cat.name, slug: cat.slug, categoryName: cat.name });
-          if (data.fotky) data.fotky.forEach(f => { if (f.src) allPhotos.push({ src: f.src, alt: f.alt || cat.name, slug: cat.slug, categoryName: cat.name }); });
-        } catch(e) {}
-      }
-    }
-    buildSearchIndex();
-
-    function fixSrcSearch(src) { return src && src.startsWith('/images/') ? '/public' + src : src || ''; }
-
-    function toggleSearch() {
-      const bar = document.getElementById('searchBar');
-      const input = document.getElementById('searchInput');
-      if (bar.classList.toggle('open')) setTimeout(() => input.focus(), 300);
-      else closeSearch();
-    }
-
-    function closeSearch() {
-      document.getElementById('searchBar').classList.remove('open');
-      document.getElementById('searchResults').classList.remove('visible');
-      document.getElementById('searchInput').value = '';
-      document.getElementById('searchResultsGrid').innerHTML = '';
-    }
-
-    document.getElementById('searchInput').addEventListener('input', function() {
-      const q = this.value.trim().toLowerCase();
-      const resultsEl = document.getElementById('searchResults');
-      const grid = document.getElementById('searchResultsGrid');
-      const title = document.getElementById('searchResultsTitle');
-      if (q.length < 2) { resultsEl.classList.remove('visible'); return; }
-      const found = allPhotos.filter(p => p.alt.toLowerCase().includes(q) || p.categoryName.toLowerCase().includes(q));
-      grid.innerHTML = '';
-      title.textContent = found.length > 0 ? `Nalezeno ${found.length} výsledků pro „${q}"` : '';
-      if (found.length === 0) {
-        grid.innerHTML = `<p class="search-no-results">Žádné výsledky pro „${q}"</p>`;
-      } else {
-        found.forEach(photo => {
-          const catPath = PREFIX + 'realizace/' + photo.slug + '.html';
-          const item = document.createElement('a');
-          item.href = catPath;
-          item.className = 'search-result-item';
-          item.innerHTML = `<img src="${fixSrcSearch(photo.src)}" alt="${photo.alt}" loading="lazy" /><span class="search-result-label">${photo.alt || photo.categoryName}</span>`;
-          grid.appendChild(item);
-        });
-      }
-      resultsEl.classList.add('visible');
-    });
-
-    // Zavřít search při kliknutí mimo
-    document.addEventListener('click', e => {
-      const bar = document.getElementById('searchBar');
-      const btn = document.getElementById('searchBtn');
-      const results = document.getElementById('searchResults');
-      if (!bar.classList.contains('open')) return;
-      if (bar.contains(e.target) || btn.contains(e.target) || results.contains(e.target)) return;
-      closeSearch();
-    });
-
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSearch(); });
 </script>
 </body>
 </html>
