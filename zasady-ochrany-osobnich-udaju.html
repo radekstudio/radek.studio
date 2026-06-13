@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Realizace — Radek Studio</title>
-  <meta name="description" content="Prohlédněte si naše realizace zakázkového nábytku na míru. Kuchyně, vestavěné skříně, obývací pokoje a další." />
+  <title>Zásady ochrany osobních údajů — Radek Studio</title>
+  <meta name="description" content="Zásady ochrany osobních údajů — Radek Studio." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet" />
+  <style>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -109,77 +110,51 @@
       .mobile-social { display: flex; gap: 16px; align-items: center; position: absolute; right: 24px; }
       .mobile-social svg { width: 17px; height: 17px; fill: var(--gray-dark); }
       .mobile-social a:hover svg { fill: var(--black); } .hamburger { display: flex; } footer { padding: 48px 24px 32px; } .footer-grid { grid-template-columns: 1fr; gap: 32px; } .footer-bottom { flex-direction: column; align-items: flex-start; } }
-    .page-header { margin-top: 72px; padding: 72px 48px 56px; }
-    .page-header h1 { font-size: 44px; font-weight: 300; letter-spacing: 0.02em; }
-
-    /* Inline search next to heading */
-    .page-header-top { display: flex; align-items: center; gap: 20px; }
-    .search-btn { background: none; border: none; cursor: pointer; padding: 8px; display: flex; align-items: center; flex-shrink: 0; }
-    .search-btn svg { width: 22px; height: 22px; stroke: var(--gray-mid); transition: stroke var(--t); }
-    .search-btn:hover svg { stroke: var(--black); }
-    .search-bar { flex: 1; max-width: 0; overflow: hidden; transition: max-width 0.45s cubic-bezier(0.25,1,0.35,1); }
-    .search-bar.open { max-width: 420px; }
-    .search-bar input {
-      width: 100%; border: none; outline: none; background: none;
-      border-bottom: 1px solid rgba(0,0,0,0.15);
-      font-family: var(--font); font-size: 20px; font-weight: 300;
-      color: var(--black); letter-spacing: 0.02em; padding: 4px 0 8px;
-    }
-    .search-bar input::placeholder { color: var(--gray-mid); }
-
-    /* Small results strip below header */
-    .search-results-strip {
-      display: flex; gap: 12px; overflow-x: auto; padding: 0 48px;
-      max-height: 0; opacity: 0; transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.4s ease;
-    }
-    .search-results-strip.visible { max-height: 140px; opacity: 1; padding: 16px 48px 0; }
-    .search-results-strip a { flex: 0 0 112px; width: 112px; height: 112px; overflow: hidden; background: #f0efed; position: relative; }
-    .search-results-strip img {
-      width: 100%; height: 100%; object-fit: cover;
-      opacity: 0; transform: scale(1.08);
-      transition: opacity 0.5s cubic-bezier(0.25,1,0.35,1), transform 0.6s cubic-bezier(0.25,1,0.35,1);
-    }
-    .search-results-strip img.loaded { opacity: 1; transform: scale(1); }
-    .search-results-strip a:hover img.loaded { transform: scale(1.06); }
-    .search-strip-empty { font-size: 15px; color: var(--gray-mid); font-style: italic; align-self: center; }
-
-    .categories-grid { padding: 0 48px 96px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .cat-card { position: relative; overflow: hidden; aspect-ratio: 4/3; cursor: pointer; background: #f0efed; }
-    .cat-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.6s var(--ease), transform 0.85s var(--ease); }
-    .cat-card img.loaded { opacity: 1; }
-    .cat-card:hover img { transform: scale(1.05); }
-    .cat-card-overlay { position: absolute; inset: 0; background: var(--overlay); display: flex; align-items: center; justify-content: center; transition: background 0.35s ease; }
-    .cat-card:hover .cat-card-overlay { background: rgba(0,0,0,0.44); }
-    .cat-card-overlay span { color: white; font-size: 17px; font-weight: 400; letter-spacing: 0.06em; text-align: center; padding: 0 16px; }
-    @media (max-width: 1024px) { .categories-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 768px) { .page-header { padding: 48px 24px 40px; } .page-header h1 { font-size: 32px; } .categories-grid { padding: 0 24px 64px; grid-template-columns: repeat(2, 1fr); gap: 10px; } .search-bar.open { max-width: 200px; } .search-results-strip { padding: 0 24px; } .search-results-strip.visible { padding: 16px 24px 0; } }
-    @media (max-width: 480px) { .categories-grid { grid-template-columns: 1fr; } }
+    
+    @media (max-width: 768px) {
+      .contact-header { padding: 48px 24px 40px; }
+      .contact-header h1 { font-size: 32px; }
+      .contact-main { padding: 0 24px 64px; }
+                            }
     .nav-social a, .mobile-social a, .footer-social a { transition: opacity 0.3s ease; }
     .nav-social a:hover, .mobile-social a:hover, .footer-social a:hover { opacity: 0.7; }
+  </style>
+    .legal-page { margin-top: 72px; padding: 72px 48px 96px; max-width: 760px; }
+    .legal-page h1 { font-size: 44px; font-weight: 300; letter-spacing: 0.02em; margin-bottom: 8px; }
+    .legal-updated { font-size: 14px; color: var(--gray-mid); margin-bottom: 48px; }
+    .legal-page h2 { font-size: 24px; font-weight: 400; margin: 40px 0 16px; }
+    .legal-page p, .legal-page li { font-size: 17px; font-weight: 300; line-height: 1.85; color: var(--gray-dark); margin-bottom: 14px; }
+    .legal-page ul { padding-left: 24px; margin-bottom: 14px; }
+    .legal-page a { color: var(--black); text-decoration: underline; text-underline-offset: 2px; }
+    @media (max-width: 768px) {
+      .legal-page { padding: 48px 24px 64px; }
+      .legal-page h1 { font-size: 32px; }
+    }
 
     /* COOKIE BANNER */
-        .cookie-banner {
-          position: fixed; left: 24px; right: 24px; bottom: 24px; z-index: 300;
-          max-width: 520px; margin: 0 auto;
-          background: var(--black); color: white;
-          padding: 24px 28px; border-radius: 4px;
-          box-shadow: 0 12px 40px rgba(0,0,0,0.25);
-          transform: translateY(140%); opacity: 0;
-          transition: transform 0.5s cubic-bezier(0.25,1,0.35,1), opacity 0.5s ease;
-        }
-        .cookie-banner.visible { transform: translateY(0); opacity: 1; }
-        .cookie-banner p { font-size: 15px; font-weight: 300; line-height: 1.65; color: rgba(255,255,255,0.8); margin-bottom: 18px; }
-        .cookie-banner a { color: white; text-decoration: underline; }
-        .cookie-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-        .cookie-actions button {
-          font-family: var(--font); font-size: 14px; letter-spacing: 0.04em;
-          padding: 10px 22px; border-radius: 2px; cursor: pointer;
-          border: 1px solid rgba(255,255,255,0.25); background: none; color: white;
-          transition: background 0.3s ease, border-color 0.3s ease;
-        }
-        .cookie-actions button.primary { background: white; color: var(--black); border-color: white; }
-        .cookie-actions button:hover { border-color: white; }
-        .cookie-actions button.primary:hover { background: rgba(255,255,255,0.85); }
+    .cookie-banner {
+      position: fixed; left: 24px; right: 24px; bottom: 24px; z-index: 300;
+      max-width: 520px; margin: 0 auto;
+      background: var(--black); color: white;
+      padding: 24px 28px; border-radius: 4px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+      transform: translateY(140%); opacity: 0;
+      transition: transform 0.5s cubic-bezier(0.25,1,0.35,1), opacity 0.5s ease;
+    }
+    .cookie-banner.visible { transform: translateY(0); opacity: 1; }
+    .cookie-banner p { font-size: 15px; font-weight: 300; line-height: 1.65; color: rgba(255,255,255,0.8); margin-bottom: 18px; }
+    .cookie-banner a { color: white; text-decoration: underline; }
+    .cookie-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .cookie-actions button {
+      font-family: var(--font); font-size: 14px; letter-spacing: 0.04em;
+      padding: 10px 22px; border-radius: 2px; cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.25); background: none; color: white;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    .cookie-actions button.primary { background: white; color: var(--black); border-color: white; }
+    .cookie-actions button:hover { border-color: white; }
+    .cookie-actions button.primary:hover { background: rgba(255,255,255,0.85); }
+
   </style>
 </head>
 <body>
@@ -224,43 +199,46 @@
     <a href="kontakt.html" onclick="toggleMenu()">kontakt</a>
   </div>
 
+  <div class="legal-page">
+    <h1 class="reveal">Zásady ochrany osobních údajů</h1>
+    <p class="legal-updated reveal">Poslední aktualizace: [DOPLNIT DATUM]</p>
 
-  <div class="page-header">
-    <div class="page-header-top">
-      <h1 class="reveal">Všechny realizace</h1>
-      <button class="search-btn" id="searchBtn" aria-label="Hledat" onclick="toggleSearch()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      </button>
-      <div class="search-bar" id="searchBar">
-        <input type="text" id="searchInput" placeholder="Hledat podle popisu fotky…" autocomplete="off" />
-      </div>
+    <div class="reveal">
+    <h2>1. Správce osobních údajů</h2>
+    <p>Správcem osobních údajů je Radek Pešek, IČO: 14291452, DIČ: 8803086171, se sídlem Hranice, 753 01 (dále jen „Radek Studio" nebo „my"). Kontaktovat nás můžete na e-mailu <a href="mailto:info@radekstudio.cz">info@radekstudio.cz</a>.</p>
+
+    <h2>2. Jaké údaje zpracováváme</h2>
+    <p>Při komunikaci prostřednictvím kontaktního formuláře, telefonu nebo e-mailu zpracováváme zejména:</p>
+    <ul>
+      <li>jméno a příjmení,</li>
+      <li>telefonní číslo,</li>
+      <li>e-mailovou adresu,</li>
+      <li>obsah Vaší poptávky či zprávy.</li>
+    </ul>
+
+    <h2>3. Účel a právní základ zpracování</h2>
+    <p>Vaše údaje zpracováváme za účelem zodpovězení dotazu, přípravy cenové nabídky a realizace zakázky na základě oprávněného zájmu, případně plnění smlouvy (čl. 6 odst. 1 písm. b) a f) GDPR).</p>
+
+    <h2>4. Doba uchovávání</h2>
+    <p>Osobní údaje uchováváme po dobu nezbytně nutnou k vyřízení poptávky a po dobu vyžadovanou právními předpisy (např. účetní a daňové doklady).</p>
+
+    <h2>5. Předávání třetím stranám</h2>
+    <p>Vaše osobní údaje nepředáváme třetím stranám, s výjimkou případů, kdy to vyžaduje zákon nebo je to nezbytné pro realizaci zakázky (např. dopravce při doručení).</p>
+
+    <h2>6. Vaše práva</h2>
+    <p>V souladu s GDPR máte právo na přístup ke svým osobním údajům, jejich opravu, výmaz, omezení zpracování, přenositelnost a vznesení námitky. Pro uplatnění těchto práv nás kontaktujte na <a href="mailto:info@radekstudio.cz">info@radekstudio.cz</a>.</p>
+
+    <h2>7. Cookies</h2>
+    <p>Informace o tom, jaké soubory cookies používáme, naleznete na samostatné stránce <a href="cookies.html">Cookies</a>.</p>
     </div>
-  </div>
-
-  <div class="search-results-strip" id="searchResultsStrip"></div>
-
-  <div class="categories-grid reveal-group">
-    <a href="realizace/kuchynske-linky.html" class="cat-card reveal"><img id="cat-kuchynske-linky" alt="Kuchyňské linky" loading="lazy" /><div class="cat-card-overlay"><span>kuchyňské linky</span></div></a>
-    <a href="realizace/vestavljene-skrine.html" class="cat-card reveal"><img id="cat-vestavljene-skrine" alt="Vestavěné skříně" loading="lazy" /><div class="cat-card-overlay"><span>vestavěné skříně</span></div></a>
-    <a href="realizace/koupelnovy-nabytek.html" class="cat-card reveal"><img id="cat-koupelnovy-nabytek" alt="Koupelnový nábytek" loading="lazy" /><div class="cat-card-overlay"><span>koupelnový nábytek</span></div></a>
-    <a href="realizace/kancelarsky-nabytek.html" class="cat-card reveal"><img id="cat-kancelarsky-nabytek" alt="Kancelářský nábytek" loading="lazy" /><div class="cat-card-overlay"><span>kancelářský nábytek</span></div></a>
-    <a href="realizace/komody.html" class="cat-card reveal"><img id="cat-komody" alt="Komody" loading="lazy" /><div class="cat-card-overlay"><span>komody</span></div></a>
-    <a href="realizace/ostatni.html" class="cat-card reveal"><img id="cat-ostatni" alt="Ostatní" loading="lazy" /><div class="cat-card-overlay"><span>ostatní</span></div></a>
   </div>
 
   <footer>
     <div class="footer-grid">
-      <div class="footer-brand">
-        <span class="footer-logo"><img src="radek_studio.svg" alt="Radek Studio" /></span>
-        <p>Zakázková výroba kvalitního dřevěného nábytku na míru. Od návrhu až po finální realizaci.</p>
-        <div class="footer-social">
-          <a href="https://www.instagram.com/radek.studio/" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path fill="url(#igGradient)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-          <a href="https://www.facebook.com/people/Radek-Studio/61590328727192/" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path fill="#0866FF" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
-        </div>
-      </div>
+      <div class="footer-brand"><span class="footer-logo"><img src="radek_studio.svg" alt="Radek Studio" /></span><p>Zakázková výroba kvalitního dřevěného nábytku na míru.</p><div class="footer-social"><a href="https://www.instagram.com/radek.studio/" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path fill="url(#igGradient)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a><a href="https://www.facebook.com/people/Radek-Studio/61590328727192/" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path fill="#0866FF" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a></div></div>
       <div class="footer-col"><h4>Navigace</h4><ul><li><a href="index.html">Úvod</a></li><li><a href="realizace.html">Realizace</a></li><li><a href="index.html#spoluprace">Spolupráce</a></li><li><a href="index.html#o-nas">O nás</a></li><li><a href="kontakt.html">Kontakt</a></li></ul></div>
       <div class="footer-col"><h4>Kontakt</h4><p style="margin-bottom:14px;"><span style="color:rgba(255,255,255,0.32);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;">Objednávky</span><br/><a href="tel:+420736209164" style="color:rgba(255,255,255,0.65);">736 209 164</a></p><p style="margin-bottom:14px;"><span style="color:rgba(255,255,255,0.32);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;">Výroba</span><br/><a href="tel:+420606664394" style="color:rgba(255,255,255,0.65);">606 664 394</a></p><p>info@radekstudio.cz<br />Hranice, 753 01</p></div>
-      <div class="footer-col"><h4>Právní informace</h4><ul><li><a href="zasady-ochrany-osobnich-udaju.html">Zásady ochrany osobních údajů</a></li><li><a href="cookies.html">Cookies</a></li></ul><br /><p style="color:rgba(255,255,255,0.3);font-size:13px;">IČO: 14291452<br/>DIČ: 8803086171</p></div>
+      <div class="footer-col"><h4>Právní informace</h4><ul><li><a href="zasady-ochrany-osobnich-udaju.html">Zásady ochrany osobních údajů</a></li><li><a href="cookies.html">Cookies</a></li></ul><br /><p style="color:rgba(255,255,255,0.3);font-size:13px;">IČO: 14291452</p></div>
     </div>
     <div class="footer-bottom"><p>© 2025 Radek Studio. Všechna práva vyhrazena.</p><p>Zakázková výroba nábytku na míru</p></div>
   </footer>
@@ -283,95 +261,7 @@
         h.classList.remove("open");
       }
     });
-
-    /* Vyhledávání podle popisu fotek */
-    let allPhotos = [];
-    async function buildSearchIndex() {
-      const categories = [
-        { slug: 'kuchynske-linky', name: 'Kuchyňské linky' },
-        { slug: 'vestavljene-skrine', name: 'Vestavěné skříně' },
-        { slug: 'koupelnovy-nabytek', name: 'Koupelnový nábytek' },
-        { slug: 'kancelarsky-nabytek', name: 'Kancelářský nábytek' },
-        { slug: 'komody', name: 'Komody' },
-        { slug: 'ostatni', name: 'Ostatní' },
-      ];
-      for (const cat of categories) {
-        try {
-          const res = await fetch(`/_data/${cat.slug}.json`);
-          const data = await res.json();
-          if (data.hero) allPhotos.push({ src: data.hero, alt: cat.name, slug: cat.slug, categoryName: cat.name });
-          if (data.fotky) data.fotky.forEach(f => { if (f.src) allPhotos.push({ src: f.src, alt: f.alt || cat.name, slug: cat.slug, categoryName: cat.name }); });
-        } catch(e) {}
-      }
-    }
-    buildSearchIndex();
-
-    function fixSrcSearch(src) { return src && src.startsWith('/images/') ? '/public' + src : src || ''; }
-
-    function toggleSearch() {
-      const bar = document.getElementById('searchBar');
-      const input = document.getElementById('searchInput');
-      if (bar.classList.toggle('open')) {
-        setTimeout(() => input.focus(), 250);
-      } else {
-        closeSearch();
-      }
-    }
-
-    function closeSearch() {
-      document.getElementById('searchBar').classList.remove('open');
-      document.getElementById('searchResultsStrip').classList.remove('visible');
-      document.getElementById('searchInput').value = '';
-      document.getElementById('searchResultsStrip').innerHTML = '';
-    }
-
-    document.getElementById('searchInput').addEventListener('input', function() {
-      const q = this.value.trim().toLowerCase();
-      const strip = document.getElementById('searchResultsStrip');
-
-      if (q.length < 2) {
-        strip.classList.remove('visible');
-        return;
-      }
-
-      const found = allPhotos.filter(p =>
-        p.alt.toLowerCase().includes(q) || p.categoryName.toLowerCase().includes(q)
-      );
-
-      strip.innerHTML = '';
-      if (found.length === 0) {
-        strip.innerHTML = `<span class="search-strip-empty">Žádné výsledky pro „${q}"</span>`;
-      } else {
-        found.forEach(photo => {
-          const item = document.createElement('a');
-          item.href = `realizace/${photo.slug}.html`;
-          item.title = photo.alt || photo.categoryName;
-          const img = document.createElement('img');
-          img.src = fixSrcSearch(photo.src);
-          img.alt = photo.alt || photo.categoryName;
-          img.loading = 'lazy';
-          img.onload = () => img.classList.add('loaded');
-          item.appendChild(img);
-          strip.appendChild(item);
-        });
-      }
-      strip.classList.add('visible');
-    });
-
-    // Zavřít search při kliknutí mimo
-    document.addEventListener('click', e => {
-      const bar = document.getElementById('searchBar');
-      const btn = document.getElementById('searchBtn');
-      const strip = document.getElementById('searchResultsStrip');
-      if (!bar.classList.contains('open')) return;
-      if (bar.contains(e.target) || btn.contains(e.target) || strip.contains(e.target)) return;
-      closeSearch();
-    });
-
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSearch(); });
   </script>
-<script src="/loader.js"></script>
-  <script>loadRealizace();</script>
   <script src="cookie-consent.js"></script>
 </body>
 </html>

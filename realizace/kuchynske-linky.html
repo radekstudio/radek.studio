@@ -126,6 +126,30 @@
     @media (max-width: 480px) { .photo-grid { grid-template-columns: 1fr; } }
     .nav-social a, .mobile-social a, .footer-social a { transition: opacity 0.3s ease; }
     .nav-social a:hover, .mobile-social a:hover, .footer-social a:hover { opacity: 0.7; }
+
+    /* COOKIE BANNER */
+        .cookie-banner {
+          position: fixed; left: 24px; right: 24px; bottom: 24px; z-index: 300;
+          max-width: 520px; margin: 0 auto;
+          background: var(--black); color: white;
+          padding: 24px 28px; border-radius: 4px;
+          box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+          transform: translateY(140%); opacity: 0;
+          transition: transform 0.5s cubic-bezier(0.25,1,0.35,1), opacity 0.5s ease;
+        }
+        .cookie-banner.visible { transform: translateY(0); opacity: 1; }
+        .cookie-banner p { font-size: 15px; font-weight: 300; line-height: 1.65; color: rgba(255,255,255,0.8); margin-bottom: 18px; }
+        .cookie-banner a { color: white; text-decoration: underline; }
+        .cookie-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+        .cookie-actions button {
+          font-family: var(--font); font-size: 14px; letter-spacing: 0.04em;
+          padding: 10px 22px; border-radius: 2px; cursor: pointer;
+          border: 1px solid rgba(255,255,255,0.25); background: none; color: white;
+          transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        .cookie-actions button.primary { background: white; color: var(--black); border-color: white; }
+        .cookie-actions button:hover { border-color: white; }
+        .cookie-actions button.primary:hover { background: rgba(255,255,255,0.85); }
   </style>
 </head>
 <body>
@@ -238,5 +262,6 @@
   // Načti kategorii
   loadCategory('kuchynske-linky', 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1600&q=80');
 </script>
+  <script src="../cookie-consent.js"></script>
 </body>
 </html>
